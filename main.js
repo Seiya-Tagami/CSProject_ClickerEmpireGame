@@ -281,10 +281,9 @@ function withdrawPage(bankAccount) {
   });
 
   const backBtn = comeBackLaterContainer.querySelector('.js-back-btn');
-  backBtn.addEventListener('click', () => {
-    displayNone(config.sidePage);
-    displayBlock(config.bankPage);
-    config.bankPage.append(mainBankPage(bankAccount));
+  backBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    bankReturn(bankAccount);
   });
 
   const nextBtn = comeBackLaterContainer.querySelector('.js-next-btn');
@@ -301,7 +300,8 @@ function withdrawPage(bankAccount) {
 
     // when putting confirm btn
     const nextBtn = container.querySelector('.js-next-btn');
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       bankAccount.withdraw(calculatedAmount);
       bankReturn(bankAccount);
     });
@@ -405,10 +405,9 @@ function depositPage(bankAccount) {
   });
 
   const backBtn = comeBackLaterContainer.querySelector('.js-back-btn');
-  backBtn.addEventListener('click', () => {
-    displayNone(config.sidePage);
-    displayBlock(config.bankPage);
-    config.bankPage.append(mainBankPage(bankAccount));
+  backBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    bankReturn(bankAccount);
   });
 
   const nextBtn = comeBackLaterContainer.querySelector('.js-next-btn');
@@ -425,7 +424,8 @@ function depositPage(bankAccount) {
 
     // when putting confirm btn
     const nextBtn = container.querySelector('.js-next-btn');
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       bankAccount.deposit(calculatedAmount);
       bankReturn(bankAccount);
     });
