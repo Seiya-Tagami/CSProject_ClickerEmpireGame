@@ -30,7 +30,7 @@ class BankAccount {
   }
 }
 
-function initializeUserAcount() {
+function initializeUserAccount() {
   const form = document.getElementById('bank-form');
   let userBankAccount = new BankAccount(
     form.querySelectorAll(`input[name="userFirstName"]`).item(0).value,
@@ -93,7 +93,7 @@ function mainBankPage(bankAccount) {
   container.append(infoCon, balanceCon, menuCon);
 
   menuCon.querySelector('#js-withdrawBtn').addEventListener('click', () => {
-    withDrawController();
+    withDrawController(bankAccount);
   });
 
   menuCon.querySelector('#js-depositBtn').addEventListener('click', () => {
@@ -123,8 +123,9 @@ function billInputSelector(title) {
         type="number"
         name="number"
         id="number"
+        data-bill="100"
         class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
-        value="1"
+        value="0"
       />
     </div>
     <div class="flex items-center justify-between gap-4">
@@ -133,8 +134,9 @@ function billInputSelector(title) {
         type="number"
         name="number"
         id="number"
+        data-bill="50"
         class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
-        value="1"
+        value="0"
       />
     </div>
     <div class="flex items-center justify-between gap-4">
@@ -143,8 +145,9 @@ function billInputSelector(title) {
         type="number"
         name="number"
         id="number"
+        data-bill="20"
         class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
-        value="1"
+        value="0"
       />
     </div>
     <div class="flex items-center justify-between gap-4">
@@ -153,8 +156,9 @@ function billInputSelector(title) {
         type="number"
         name="number"
         id="number"
+        data-bill="10"
         class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
-        value="1"
+        value="0"
       />
     </div>
     <div class="flex items-center justify-between gap-4">
@@ -163,8 +167,9 @@ function billInputSelector(title) {
         type="number"
         name="number"
         id="number"
+        data-bill="5"
         class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
-        value="1"
+        value="0"
       />
     </div>
     <div class="flex items-center justify-between gap-4">
@@ -173,8 +178,9 @@ function billInputSelector(title) {
         type="number"
         name="number"
         id="number"
+        data-bill="1"
         class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
-        value="1"
+        value="0"
       />
     </div>
     <div class="w-full p-2 text-center bg-yellow-200 font-bold text-xl">
@@ -190,7 +196,7 @@ function billInputSelector(title) {
  * ボタンのHTMLを作成
  * @param {string} backString
  * @param {string} nextString
- * @returns
+ * @returns {HTMLDivElement}
  */
 function backNextBtn(backString, nextString) {
   const container = document.createElement('div');
@@ -198,7 +204,7 @@ function backNextBtn(backString, nextString) {
   container.innerHTML = `
   <button
   type="submit"
-  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+  class="js-back-btn w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 >
   ${backString}
 </button>
@@ -213,16 +219,20 @@ ${nextString}
   return container;
 }
 
-function withDrawController() {
+function withDrawController(bankAccount) {
   displayNone(config.bankPage);
   displayBlock(config.sidePage);
 
   config.bankPage.innerHTML = '';
   config.sidePage.innerHTML = '';
-  config.sidePage.append(withDrawPage());
+  config.sidePage.append(withDrawPage(bankAccount));
 }
 
-function withDrawPage() {
+/**
+ * withDrawPageの描画と内部の処理
+ * @returns {void}
+ */
+function withDrawPage(bankAccount) {
   const container = document.createElement('div');
   container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
 
@@ -233,12 +243,35 @@ function withDrawPage() {
   container.append(withdrawContainer);
 
   const billInputs = withdrawContainer.querySelectorAll('.js-bill-input');
-  console.log(billInputs);
   billInputs.forEach((billInput) => {
     billInput.addEventListener('change', (e) => {
-      document.querySelector('.js-withdrawTotal').innerHTML = e.target.value;
+      billSummation(billInputs);
+      document.querySelector('.js-withdrawTotal').innerHTML = billSummation(billInputs);
     });
   });
 
+  const backBtn = withdrawContainer.querySelector('.js-back-btn');
+  backBtn.addEventListener('click', () => {
+    displayNone(config.sidePage);
+    displayBlock(config.bankPage);
+    config.bankPage.append(mainBankPage(bankAccount));
+  });
+
   return container;
+}
+
+/**
+ * billInputsの計算
+ * @param {NodeList} billInputs
+ * @returns {number}
+ */
+function billSummation(billInputs) {
+  const dollars = [100, 50, 20, 10, 5, 1];
+  let total = 0;
+
+  for (let i = 0; i < dollars.length; i++) {
+    total += billInputs[i].value * dollars[i];
+  }
+
+  return total;
 }
