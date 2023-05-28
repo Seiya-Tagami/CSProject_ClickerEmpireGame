@@ -38,6 +38,10 @@ class BankAccount {
       return this.initialDeposit * this.maxWithdrawPercent;
     }
   }
+
+  withdraw(amount) {
+    this.money -= amount;
+  }
 }
 
 function initializeUserAccount() {
@@ -276,6 +280,22 @@ function withdrawPage(bankAccount) {
     `;
 
     container.append(backNextBtn('back', 'confirm'));
+
+    // when putting confirm btn
+    const nextBtn = container.querySelector('.js-next-btn');
+    nextBtn.addEventListener('click', () => {
+      displayNone(config.sidePage);
+      displayBlock(config.bankPage);
+
+      bankAccount.withdraw(parseInt(billTotal.replace('$', '')));
+      config.bankPage.append(mainBankPage(bankAccount));
+    });
+
+    const backBtn = container.querySelector('.js-back-btn');
+    backBtn.addEventListener('click', () => {
+      config.sidePage.innerHTML = '';
+      config.sidePage.append(withdrawPage(bankAccount));
+    });
   });
 
   return container;
@@ -295,64 +315,6 @@ function billSummation(billInputs) {
   }
 
   return `$${total}`;
-}
-
-{
-  /* <form class="space-y-6" action="#">
-            <h5 class="text-4xl font-medium text-gray-900 text-center">Please Enter The Deposit Amount</h5>
-
-            <div class="relative overflow-x-auto">
-              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" class="px-6 py-3">Amount</th>
-                    <th scope="col" class="px-6 py-3">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">5</th>
-                    <td class="px-6 py-4">$100</td>
-                  </tr>
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">1</th>
-                    <td class="px-6 py-4">$50</td>
-                  </tr>
-                  <tr class="bg-white dark:bg-gray-800">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">2</th>
-                    <td class="px-6 py-4">$20</td>
-                  </tr>
-                  <tr class="bg-white dark:bg-gray-800">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">1</th>
-                    <td class="px-6 py-4">$20</td>
-                  </tr>
-                  <tr class="bg-white dark:bg-gray-800">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">2</th>
-                    <td class="px-6 py-4">$10</td>
-                  </tr>
-                  <tr class="bg-white dark:bg-gray-800">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">2</th>
-                    <td class="px-6 py-4">$5</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="flex items-center gap-4">
-              <button
-                type="submit"
-                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Go Back
-              </button>
-              <button
-                type="submit"
-                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Confirm
-              </button>
-            </div>
-          </form> */
 }
 
 function billDialog(title, inputElementNodeList, billTotal) {
