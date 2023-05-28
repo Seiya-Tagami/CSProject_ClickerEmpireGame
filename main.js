@@ -275,8 +275,9 @@ function withdrawPage(bankAccount) {
     container.innerHTML = '';
     container.append(billDialog('Please Enter The Deposit Amount', billInputs, billTotal));
 
+    let calculatedAmount = bankAccount.calculateWithdrawAmount(parseInt(billTotal.replace('$', '')));
     container.innerHTML += `
-    <p class="p-4 text-xl">Total to be withdrawn: $${bankAccount.calculateWithdrawAmount(parseInt(billTotal.replace('$', '')))}</p>
+    <p class="p-4 text-xl">Total to be withdrawn: $${calculatedAmount}</p>
     `;
 
     container.append(backNextBtn('back', 'confirm'));
@@ -287,7 +288,7 @@ function withdrawPage(bankAccount) {
       displayNone(config.sidePage);
       displayBlock(config.bankPage);
 
-      bankAccount.withdraw(parseInt(billTotal.replace('$', '')));
+      bankAccount.withdraw(calculatedAmount);
       config.bankPage.append(mainBankPage(bankAccount));
     });
 
