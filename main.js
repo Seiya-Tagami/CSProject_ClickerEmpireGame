@@ -1,6 +1,17 @@
+function displayNone(ele) {
+  ele.classList.remove('block');
+  ele.classList.add('hidden');
+}
+
+function displayBlock(ele) {
+  ele.classList.remove('hidden');
+  ele.classList.add('block');
+}
+
 const config = {
   initialForm: document.getElementById('initial-form'),
   bankPage: document.getElementById('bank-page'),
+  sidePage: document.getElementById('side-page'),
 };
 
 class BankAccount {
@@ -82,7 +93,7 @@ function mainBankPage(bankAccount) {
   container.append(infoCon, balanceCon, menuCon);
 
   menuCon.querySelector('#js-withdrawBtn').addEventListener('click', () => {
-    alert('withdraw');
+    withDrawController();
   });
 
   menuCon.querySelector('#js-depositBtn').addEventListener('click', () => {
@@ -99,4 +110,135 @@ function mainBankPage(bankAccount) {
 function getRandomInteger(min, max) {
   let randomNum = Math.floor(Math.random() * (max - min) + min);
   return randomNum;
+}
+
+function billInputSelector(title) {
+  const container = document.createElement('div');
+  container.classList.add('space-y-4');
+  container.innerHTML = `
+    <h5 class="text-4xl font-medium text-gray-900 text-center">${title}</h5>
+    <div class="flex items-center justify-between gap-4">
+      <label>$100</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="1"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$50</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="1"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$20</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="1"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$10</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="1"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$5</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="1"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$1</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="1"
+      />
+    </div>
+    <div class="w-full p-2 text-center bg-yellow-200 font-bold text-xl">
+      <span class="js-withdrawTotal">$0.00</span>
+    </div>
+
+  `;
+  container.append(backNextBtn('back', 'next'));
+  return container;
+}
+
+/**
+ * ボタンのHTMLを作成
+ * @param {string} backString
+ * @param {string} nextString
+ * @returns
+ */
+function backNextBtn(backString, nextString) {
+  const container = document.createElement('div');
+  container.classList.add('flex', 'items-center', 'gap-4');
+  container.innerHTML = `
+  <button
+  type="submit"
+  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+>
+  ${backString}
+</button>
+<button
+  type="submit"
+  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+>
+${nextString}
+</button>
+  `;
+
+  return container;
+}
+
+function withDrawController() {
+  displayNone(config.bankPage);
+  displayBlock(config.sidePage);
+
+  config.bankPage.innerHTML = '';
+  config.sidePage.innerHTML = '';
+  config.sidePage.append(withDrawPage());
+}
+
+function withDrawPage() {
+  const container = document.createElement('div');
+  container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
+
+  const withdrawContainer = document.createElement('form');
+  withdrawContainer.setAttribute('action', '#');
+  withdrawContainer.append(billInputSelector('Please Enter The Withdrawal Amount'));
+
+  container.append(withdrawContainer);
+
+  const billInputs = withdrawContainer.querySelectorAll('.js-bill-input');
+  console.log(billInputs);
+  billInputs.forEach((billInput) => {
+    billInput.addEventListener('change', (e) => {
+      document.querySelector('.js-withdrawTotal').innerHTML = e.target.value;
+    });
+  });
+
+  return container;
 }
