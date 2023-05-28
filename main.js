@@ -15,6 +15,8 @@ const config = {
 };
 
 class BankAccount {
+  maxWithdrawPercent = 0.2;
+
   constructor(firstName, lastName, email, type, accountNumber, money) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -27,6 +29,14 @@ class BankAccount {
 
   getFullName() {
     return this.firstName + ' ' + this.lastName;
+  }
+
+  calculateWithdrawAmount(amount) {
+    if (amount <= this.initialDeposit * this.maxWithdrawPercent) {
+      return amount;
+    } else {
+      return this.initialDeposit * this.maxWithdrawPercent;
+    }
   }
 }
 
@@ -184,7 +194,7 @@ function billInputSelector(title) {
       />
     </div>
     <div class="w-full p-2 text-center bg-yellow-200 font-bold text-xl">
-      <span class="js-withdrawTotal">$0.00</span>
+      <span class="js-withdrawTotal">$0</span>
     </div>
 
   `;
@@ -203,14 +213,12 @@ function backNextBtn(backString, nextString) {
   container.classList.add('flex', 'items-center', 'gap-4');
   container.innerHTML = `
   <button
-  type="submit"
   class="js-back-btn w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 >
   ${backString}
 </button>
 <button
-  type="submit"
-  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+  class="js-next-btn w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 >
 ${nextString}
 </button>
@@ -225,14 +233,14 @@ function withDrawController(bankAccount) {
 
   config.bankPage.innerHTML = '';
   config.sidePage.innerHTML = '';
-  config.sidePage.append(withDrawPage(bankAccount));
+  config.sidePage.append(withdrawPage(bankAccount));
 }
 
 /**
  * withDrawPageの描画と内部の処理
  * @returns {void}
  */
-function withDrawPage(bankAccount) {
+function withdrawPage(bankAccount) {
   const container = document.createElement('div');
   container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
 
@@ -242,11 +250,12 @@ function withDrawPage(bankAccount) {
 
   container.append(withdrawContainer);
 
+  let billTotal = '$0';
   const billInputs = withdrawContainer.querySelectorAll('.js-bill-input');
   billInputs.forEach((billInput) => {
     billInput.addEventListener('change', (e) => {
-      billSummation(billInputs);
-      document.querySelector('.js-withdrawTotal').innerHTML = billSummation(billInputs);
+      billTotal = billSummation(billInputs);
+      document.querySelector('.js-withdrawTotal').innerHTML = billTotal;
     });
   });
 
@@ -257,21 +266,137 @@ function withDrawPage(bankAccount) {
     config.bankPage.append(mainBankPage(bankAccount));
   });
 
+  const nextBtn = withdrawContainer.querySelector('.js-next-btn');
+  nextBtn.addEventListener('click', () => {
+    container.innerHTML = '';
+    container.append(billDialog('Please Enter The Deposit Amount', billInputs, billTotal));
+
+    container.innerHTML += `
+    <p class="p-4 text-xl">Total to be withdrawn: $${bankAccount.calculateWithdrawAmount(parseInt(billTotal.replace('$', '')))}</p>
+    `;
+
+    container.append(backNextBtn('back', 'confirm'));
+  });
+
   return container;
 }
 
 /**
  * billInputsの計算
  * @param {NodeList} billInputs
- * @returns {number}
+ * @returns {string}
  */
 function billSummation(billInputs) {
-  const dollars = [100, 50, 20, 10, 5, 1];
+  const dollars = Array.from(billInputs).map((billInput) => billInput.dataset.bill);
   let total = 0;
 
   for (let i = 0; i < dollars.length; i++) {
     total += billInputs[i].value * dollars[i];
   }
 
-  return total;
+  return `$${total}`;
+}
+
+{
+  /* <form class="space-y-6" action="#">
+            <h5 class="text-4xl font-medium text-gray-900 text-center">Please Enter The Deposit Amount</h5>
+
+            <div class="relative overflow-x-auto">
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-6 py-3">Amount</th>
+                    <th scope="col" class="px-6 py-3">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">5</th>
+                    <td class="px-6 py-4">$100</td>
+                  </tr>
+                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">1</th>
+                    <td class="px-6 py-4">$50</td>
+                  </tr>
+                  <tr class="bg-white dark:bg-gray-800">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">2</th>
+                    <td class="px-6 py-4">$20</td>
+                  </tr>
+                  <tr class="bg-white dark:bg-gray-800">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">1</th>
+                    <td class="px-6 py-4">$20</td>
+                  </tr>
+                  <tr class="bg-white dark:bg-gray-800">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">2</th>
+                    <td class="px-6 py-4">$10</td>
+                  </tr>
+                  <tr class="bg-white dark:bg-gray-800">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">2</th>
+                    <td class="px-6 py-4">$5</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <button
+                type="submit"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Go Back
+              </button>
+              <button
+                type="submit"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Confirm
+              </button>
+            </div>
+          </form> */
+}
+
+function billDialog(title, inputElementNodeList, billTotal) {
+  const container = document.createElement('div');
+  const dollars = Array.from(inputElementNodeList).map((billInput) => billInput.dataset.bill);
+  let billElements = '';
+
+  for (let i = 0; i < inputElementNodeList.length; i++) {
+    if (0 < parseInt(inputElementNodeList[i].value)) {
+      billElements += `
+      <tr class="bg-white dark:bg-gray-800">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${inputElementNodeList[i].value}</th>
+                    <td class="px-6 py-4">$${dollars[i]}</td>
+                  </tr>
+      `;
+    }
+  }
+
+  const totalString = `
+  <tr class="bg-white dark:bg-gray-800">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</th>
+                    <td class="px-6 py-4">${billTotal}</td>
+                  </tr>
+  `;
+
+  container.innerHTML = `
+  <div class="space-y-6" action="#">
+  <h5 class="text-4xl font-medium text-gray-900 text-center">${title}</h5>
+            <div class="relative overflow-x-auto">
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-6 py-3">Amount</th>
+                    <th scope="col" class="px-6 py-3">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 ${billElements}
+                  ${totalString}
+                </tbody>
+              </table>
+            </div>
+          </div>
+  `;
+
+  return container;
 }
