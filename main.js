@@ -16,6 +16,7 @@ const config = {
 
 class BankAccount {
   maxWithdrawPercent = 0.2;
+  annualInterestRate = 0.08;
 
   constructor(firstName, lastName, email, type, accountNumber, money) {
     this.firstName = firstName;
@@ -41,6 +42,14 @@ class BankAccount {
 
   withdraw(amount) {
     this.money -= amount;
+  }
+
+  deposit(amount) {
+    this.money += amount;
+  }
+
+  simulateTimePassage(days) {
+    this.money += (this.money * days * this.annualInterestRate) / 365;
   }
 }
 
@@ -107,15 +116,18 @@ function mainBankPage(bankAccount) {
   container.append(infoCon, balanceCon, menuCon);
 
   menuCon.querySelector('#js-withdrawBtn').addEventListener('click', () => {
-    withDrawController(bankAccount);
+    sideBankSwitch();
+    config.sidePage.append(withdrawPage(bankAccount));
   });
 
   menuCon.querySelector('#js-depositBtn').addEventListener('click', () => {
-    alert('deposit');
+    sideBankSwitch();
+    config.sidePage.append(depositPage(bankAccount));
   });
 
   menuCon.querySelector('#js-comeBackLaterBtn').addEventListener('click', () => {
-    alert('come back later');
+    sideBankSwitch();
+    config.sidePage.append(comeBackLaterPage(bankAccount));
   });
 
   return container;
@@ -231,13 +243,18 @@ ${nextString}
   return container;
 }
 
-function withDrawController(bankAccount) {
+// for dry
+function sideBankSwitch() {
   displayNone(config.bankPage);
   displayBlock(config.sidePage);
-
   config.bankPage.innerHTML = '';
   config.sidePage.innerHTML = '';
-  config.sidePage.append(withdrawPage(bankAccount));
+}
+
+function bankReturn(bankAccount) {
+  displayNone(config.sidePage);
+  displayBlock(config.bankPage);
+  config.bankPage.append(mainBankPage(bankAccount));
 }
 
 /**
@@ -248,14 +265,13 @@ function withdrawPage(bankAccount) {
   const container = document.createElement('div');
   container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
 
-  const withdrawContainer = document.createElement('form');
-  withdrawContainer.setAttribute('action', '#');
-  withdrawContainer.append(billInputSelector('Please Enter The Withdrawal Amount'));
+  const comeBackLaterContainer = document.createElement('form');
+  comeBackLaterContainer.append(billInputSelector('Please Enter The Withdrawal Amount'));
 
-  container.append(withdrawContainer);
+  container.append(comeBackLaterContainer);
 
   let billTotal = '$0';
-  const billInputs = withdrawContainer.querySelectorAll('.js-bill-input');
+  const billInputs = comeBackLaterContainer.querySelectorAll('.js-bill-input');
   billInputs.forEach((billInput) => {
     billInput.addEventListener('change', (e) => {
       billTotal = billSummation(billInputs);
@@ -263,17 +279,17 @@ function withdrawPage(bankAccount) {
     });
   });
 
-  const backBtn = withdrawContainer.querySelector('.js-back-btn');
+  const backBtn = comeBackLaterContainer.querySelector('.js-back-btn');
   backBtn.addEventListener('click', () => {
     displayNone(config.sidePage);
     displayBlock(config.bankPage);
     config.bankPage.append(mainBankPage(bankAccount));
   });
 
-  const nextBtn = withdrawContainer.querySelector('.js-next-btn');
+  const nextBtn = comeBackLaterContainer.querySelector('.js-next-btn');
   nextBtn.addEventListener('click', () => {
     container.innerHTML = '';
-    container.append(billDialog('Please Enter The Deposit Amount', billInputs, billTotal));
+    container.append(billDialog('The money you are going to take is ...', billInputs, billTotal));
 
     let calculatedAmount = bankAccount.calculateWithdrawAmount(parseInt(billTotal.replace('$', '')));
     container.innerHTML += `
@@ -285,11 +301,8 @@ function withdrawPage(bankAccount) {
     // when putting confirm btn
     const nextBtn = container.querySelector('.js-next-btn');
     nextBtn.addEventListener('click', () => {
-      displayNone(config.sidePage);
-      displayBlock(config.bankPage);
-
       bankAccount.withdraw(calculatedAmount);
-      config.bankPage.append(mainBankPage(bankAccount));
+      bankReturn(bankAccount);
     });
 
     const backBtn = container.querySelector('.js-back-btn');
@@ -361,5 +374,191 @@ function billDialog(title, inputElementNodeList, billTotal) {
           </div>
   `;
 
+  return container;
+}
+
+/**
+ * depositページの描画と内部の処理
+ * @returns {void}
+ */
+function depositPage(bankAccount) {
+  const container = document.createElement('div');
+  container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
+
+  const comeBackLaterContainer = document.createElement('form');
+  comeBackLaterContainer.append(depositInputSelector('Please Enter The Deposit Amount'));
+
+  container.append(comeBackLaterContainer);
+
+  let billTotal = '$0';
+  const billInputs = comeBackLaterContainer.querySelectorAll('.js-bill-input');
+  billInputs.forEach((billInput) => {
+    billInput.addEventListener('change', (e) => {
+      billTotal = billSummation(billInputs);
+      document.querySelector('.js-withdrawTotal').innerHTML = billTotal;
+    });
+  });
+
+  const backBtn = comeBackLaterContainer.querySelector('.js-back-btn');
+  backBtn.addEventListener('click', () => {
+    displayNone(config.sidePage);
+    displayBlock(config.bankPage);
+    config.bankPage.append(mainBankPage(bankAccount));
+  });
+
+  const nextBtn = comeBackLaterContainer.querySelector('.js-next-btn');
+  nextBtn.addEventListener('click', () => {
+    container.innerHTML = '';
+    container.append(billDialog('The money you are going to deposit is ...', billInputs, billTotal));
+
+    let calculatedAmount = parseInt(billTotal.replace('$', ''));
+    container.innerHTML += `
+    <p class="p-4 text-xl">Total to be withdrawn: $${calculatedAmount}</p>
+    `;
+
+    container.append(backNextBtn('back', 'confirm'));
+
+    // when putting confirm btn
+    const nextBtn = container.querySelector('.js-next-btn');
+    nextBtn.addEventListener('click', () => {
+      bankAccount.deposit(calculatedAmount);
+      bankReturn(bankAccount);
+    });
+
+    const backBtn = container.querySelector('.js-back-btn');
+    backBtn.addEventListener('click', () => {
+      config.sidePage.innerHTML = '';
+      config.sidePage.append(depositPage(bankAccount));
+    });
+  });
+
+  return container;
+}
+
+function depositInputSelector(title) {
+  const container = document.createElement('div');
+  container.classList.add('space-y-4');
+  container.innerHTML = `
+    <h5 class="text-4xl font-medium text-gray-900 text-center">${title}</h5>
+    <div class="flex items-center justify-between gap-4">
+      <label>$100</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        data-bill="100"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="0"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$50</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        data-bill="50"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="0"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$20</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        data-bill="20"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="0"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$10</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        data-bill="10"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="0"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$5</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        data-bill="5"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="0"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-4">
+      <label>$1</label>
+      <input
+        type="number"
+        name="number"
+        id="number"
+        data-bill="1"
+        class="js-bill-input bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-[360px] w-full p-2.5 text-end"
+        value="0"
+      />
+    </div>
+    <div class="w-full p-2 text-center bg-yellow-200 font-bold text-xl">
+      <span class="js-withdrawTotal">$0</span>
+    </div>
+
+  `;
+  container.append(backNextBtn('back', 'next'));
+  return container;
+}
+
+/**
+ * come back laterページの描画と内部の処理
+ * @returns {void}
+ */
+function comeBackLaterPage(bankAccount) {
+  const container = document.createElement('div');
+  container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
+
+  const comeBackLaterContainer = document.createElement('form');
+  comeBackLaterContainer.append(comeBackLaterInputSelector('How many days will you be gone?'));
+
+  container.append(comeBackLaterContainer);
+
+  const backBtn = container.querySelector('.js-back-btn');
+  backBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    bankReturn(bankAccount);
+  });
+
+  const daysInput = container.querySelector('.js-days');
+  const nextBtn = container.querySelector('.js-next-btn');
+  nextBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    let totalDaysGone = parseInt(daysInput.value);
+    bankAccount.simulateTimePassage(totalDaysGone);
+    bankReturn(bankAccount);
+  });
+
+  return container;
+}
+
+function comeBackLaterInputSelector(title) {
+  const container = document.createElement('div');
+  container.classList.add('space-y-4');
+  container.innerHTML = `
+  <h5 class="text-4xl font-medium text-gray-900 text-center">${title}</h5>
+<div>
+  <input
+    type="number"
+    class="js-days bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    value="0"
+  />
+</div>
+  `;
+  container.append(backNextBtn('back', 'confirm'));
   return container;
 }
