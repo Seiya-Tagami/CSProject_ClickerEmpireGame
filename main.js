@@ -1,3 +1,4 @@
+// utils for dry
 function displayNone(ele) {
   ele.classList.remove('block');
   ele.classList.add('hidden');
@@ -8,6 +9,45 @@ function displayBlock(ele) {
   ele.classList.add('block');
 }
 
+function sideBankSwitch() {
+  displayNone(config.bankPage);
+  displayBlock(config.sidePage);
+  config.bankPage.innerHTML = '';
+  config.sidePage.innerHTML = '';
+}
+
+function bankReturn(bankAccount) {
+  displayNone(config.sidePage);
+  displayBlock(config.bankPage);
+  config.bankPage.append(mainBankPage(bankAccount));
+}
+
+/**
+ * ボタンのHTMLを作成
+ * @param {string} backString
+ * @param {string} nextString
+ * @returns {HTMLDivElement}
+ */
+function backNextBtn(backString, nextString) {
+  const container = document.createElement('div');
+  container.classList.add('flex', 'items-center', 'gap-4');
+  container.innerHTML = `
+  <button
+  class="js-back-btn w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+>
+  ${backString}
+</button>
+<button
+  class="js-next-btn w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+>
+${nextString}
+</button>
+  `;
+
+  return container;
+}
+
+// global config
 const config = {
   initialForm: document.getElementById('initial-form'),
   bankPage: document.getElementById('bank-page'),
@@ -68,6 +108,14 @@ function initializeUserAccount() {
   config.bankPage.append(mainBankPage(userBankAccount));
 }
 
+function getRandomInteger(min, max) {
+  let randomNum = Math.floor(Math.random() * (max - min) + min);
+  return randomNum;
+}
+
+// pages
+
+// main page
 function mainBankPage(bankAccount) {
   const nameLi = document.createElement('li');
   const bankIdLi = nameLi.cloneNode(true);
@@ -131,11 +179,6 @@ function mainBankPage(bankAccount) {
   });
 
   return container;
-}
-
-function getRandomInteger(min, max) {
-  let randomNum = Math.floor(Math.random() * (max - min) + min);
-  return randomNum;
 }
 
 function billInputSelector(title) {
@@ -218,49 +261,7 @@ function billInputSelector(title) {
   return container;
 }
 
-/**
- * ボタンのHTMLを作成
- * @param {string} backString
- * @param {string} nextString
- * @returns {HTMLDivElement}
- */
-function backNextBtn(backString, nextString) {
-  const container = document.createElement('div');
-  container.classList.add('flex', 'items-center', 'gap-4');
-  container.innerHTML = `
-  <button
-  class="js-back-btn w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
->
-  ${backString}
-</button>
-<button
-  class="js-next-btn w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
->
-${nextString}
-</button>
-  `;
-
-  return container;
-}
-
-// for dry
-function sideBankSwitch() {
-  displayNone(config.bankPage);
-  displayBlock(config.sidePage);
-  config.bankPage.innerHTML = '';
-  config.sidePage.innerHTML = '';
-}
-
-function bankReturn(bankAccount) {
-  displayNone(config.sidePage);
-  displayBlock(config.bankPage);
-  config.bankPage.append(mainBankPage(bankAccount));
-}
-
-/**
- * withDrawPageの描画と内部の処理
- * @returns {void}
- */
+// withdraw page
 function withdrawPage(bankAccount) {
   const container = document.createElement('div');
   container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
@@ -331,6 +332,13 @@ function billSummation(billInputs) {
   return `$${total}`;
 }
 
+/**
+ * billDialogの描画
+ * @param {string} title
+ * @param {NodeList} inputElementNodeList
+ * @param {string} billTotal
+ * @returns {HTMLDivElement}
+ */
 function billDialog(title, inputElementNodeList, billTotal) {
   const container = document.createElement('div');
   const dollars = Array.from(inputElementNodeList).map((billInput) => billInput.dataset.bill);
@@ -377,10 +385,7 @@ function billDialog(title, inputElementNodeList, billTotal) {
   return container;
 }
 
-/**
- * depositページの描画と内部の処理
- * @returns {void}
- */
+// deposit page
 function depositPage(bankAccount) {
   const container = document.createElement('div');
   container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
@@ -515,10 +520,7 @@ function depositInputSelector(title) {
   return container;
 }
 
-/**
- * come back laterページの描画と内部の処理
- * @returns {void}
- */
+// comebacklater page
 function comeBackLaterPage(bankAccount) {
   const container = document.createElement('div');
   container.classList.add('w-full', 'max-w-lg', 'p-4', 'mx-auto', 'mt-20', 'bg-white', 'border', 'border-gray-200', 'rounded-lg', 'shadow', 'sm:p-6', 'md:p-8');
