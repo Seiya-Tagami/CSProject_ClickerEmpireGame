@@ -10,11 +10,11 @@
 ### デザインパターン
 
 - Atomic Design
-- Container Presentational Pattern の疑似的採用
+- Container Presentational Pattern の疑似的適用
 
 ### 各ファイルの役割
 
 - index.html
   - Components のレンダリング
-  - `<script/>`によるローカルストレージデータの読み込み、Components に流し込む
+  - `<script/>`によるローカルストレージデータの読み込み、データの Components への流し込み
 - Components/
