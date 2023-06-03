@@ -1,4 +1,4 @@
-const OPTIONS_DATA = [
+export const OPTIONS_DATA = [
   {
     id: "1",
     label: "Flip machine",
@@ -13,6 +13,7 @@ const OPTIONS_DATA = [
     desc: "0.1% per second on total purchases",
     maxPurchases: Infinity,
     price: 300000,
+    img: "images/chart.png"
   },
   {
     id: "3",
@@ -20,6 +21,7 @@ const OPTIONS_DATA = [
     desc: "0.07% per second on total purchases",
     maxPurchases: Infinity,
     price: 300000,
+    img: "images/chart.png"
   },
   {
     id: "4",

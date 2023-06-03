@@ -1,1 +1,31 @@
-console.log("Hello World!")
+import { OPTIONS_DATA } from "./constants"
+
+// rendering options
+const options_container = document.getElementById("js-options-container")
+
+const options_view = OPTIONS_DATA.map((data) => {
+  const option_view_div = document.createElement("div")
+  option_view_div.classList.add(`js-button-${data.id}`, "w-full", "h-[200px]", "px-6", "py-4", "flex", "justify-between", "items-center", "bg-indigo-700", "hover:border-4", "hover:border-green-400", "border", "rounded-md", "cursor-pointer")
+
+  option_view_div.innerHTML = `
+  <div class="flex items-center gap-2">
+    <img src="${data.img}" class="w-[160px] h-[160px] rounded" />
+    <div class="flex flex-col p-2 text-white font-bold">
+      <span class="text-2xl">${data.label}</span>
+      <span class="text-xl">￥${data.price}</span>
+    </div>
+  </div>
+  <div class="flex flex-col items-end p-2 text-white font-bold">
+    <span class="text-3xl">0</span>
+    <span class="text-green-500">${data.desc}</span>
+  </div>
+`
+  return option_view_div
+})
+
+options_view.forEach((option, index) => {
+  options_container?.append(option);
+  options_container?.querySelector(`.js-button-${index}`)?.addEventListener("click", () => {
+    alert(index)
+  });
+})
