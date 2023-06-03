@@ -1,7 +1,13 @@
+import { optionsController } from "./controller/options";
 import { createOptionsView } from "./view/options";
 
-const init = () => {
+const initView = () => {
   createOptionsView()
 }
 
-init()
+const initController = () => {
+  optionsController()
+}
+
+initView()
+initController()

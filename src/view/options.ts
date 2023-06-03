@@ -1,8 +1,9 @@
-import { OPTIONS_DATA } from "./constants"
+import { OPTIONS_DATA } from "../model/constants"
+import { options_container } from "./common/containers"
 
 // rendering options
 export const createOptionsView = () => {
-  const options_container = document.getElementById("js-options-container") as HTMLDivElement
+  options_container.innerHTML = ""
 
   const options_view: HTMLDivElement[] = OPTIONS_DATA.map((data) => {
     const option_view_div = document.createElement("div")
@@ -24,10 +25,7 @@ export const createOptionsView = () => {
     return option_view_div
   })
 
-  options_view.forEach((option, index) => {
+  options_view.forEach((option) => {
     options_container.append(option);
-    // options_container.querySelector(`.js-button-${index}`)?.addEventListener("click", () => {
-    //   console.log(OPTIONS_DATA.find((data) => data.id == index))
-    // });
   })
 }
