@@ -20,13 +20,13 @@ export const optionsController = () => {
       // when clicking go back
       document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
         createOptionsView()
-        optionsController() // like recursive processing
+        optionsController() // like a recursive processing
       })
 
       // when clicking purchase
       document.getElementById(`js-purchase-${data.id}`)?.addEventListener("click", () => {
         createOptionsView()
-        optionsController() // like recursive processing
+        optionsController() // like a recursive processing
       })
     });
   })
