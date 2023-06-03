@@ -11,7 +11,7 @@ export const createDetailView = (data: DetailViewData) => {
   <div class="flex justify-around items-center">
   <div class="flex flex-col gap-2 text-white">
     <span class="text-2xl">${data.label}</span>
-    <span>Max purchase: ${data.maxPurchase}</span>
+    <span>Max purchase: ${data.maxPurchases}</span>
     <span>Price: ￥${data.price}</span>
     <span>Get ${data.desc}</span>
   </div>
@@ -25,7 +25,7 @@ export const createDetailView = (data: DetailViewData) => {
     id=""
     placeholder="Enter your first deposit"
     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-    value="200"
+    value="0"
     required
   />
   <span class="text-right text-white">total: ￥0</span>

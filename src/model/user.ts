@@ -18,8 +18,14 @@ class User {
   clickBurger() {
     this.burgers++
     this.yen += this.oneClick
-    console.log(this.yen)
+  }
+
+  autoIncrementDays() {
+    setInterval(() => {
+      this.days++
+      console.log(this.days)
+    }, 1000)
   }
 }
 
-export const user = new User("Ayanami")
+export const user = new User("Shiba")

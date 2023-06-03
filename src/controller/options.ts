@@ -16,7 +16,7 @@ export type DetailViewData = {
   label: string
   desc: string
   price: string
-  maxPurchase: number
+  maxPurchases: number
   img: string
 }
 
