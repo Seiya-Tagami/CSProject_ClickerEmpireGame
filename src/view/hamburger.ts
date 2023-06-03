@@ -20,7 +20,7 @@ export const createHamburgerView = (data: HamburgerViewData) => {
   hamburger_container.append(hamburger_view)
 }
 
-export const createCountingUpBurgersViews = (burgers: number) => {
+export const createCountingUpBurgersView = (burgers: number) => {
   const nums_of_burgers_container = document.getElementById("js-nums-of-burgers") as HTMLSpanElement
   nums_of_burgers_container.innerText = `${burgers} Burgers`
 }

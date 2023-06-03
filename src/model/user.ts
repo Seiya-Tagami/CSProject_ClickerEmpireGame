@@ -17,7 +17,8 @@ class User {
 
   clickBurger() {
     this.burgers++
-    console.log(this.burgers)
+    this.yen += this.oneClick
+    console.log(this.yen)
   }
 }
 

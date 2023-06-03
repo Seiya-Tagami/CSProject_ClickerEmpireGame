@@ -1,11 +1,11 @@
-import { OPTIONS_DATA } from "../model/constants"
+import { OptionsViewData } from "../controller/options"
 import { options_container } from "./common/containers"
 
 // rendering options
-export const createOptionsView = () => {
+export const createOptionsView = (data: OptionsViewData) => {
   options_container.innerHTML = ""
 
-  const options_view: HTMLDivElement[] = OPTIONS_DATA.map((data) => {
+  const options_view: HTMLDivElement[] = data.map((data) => {
     const option_view_div = document.createElement("div")
     option_view_div.classList.add(`js-button-${data.id}`, "w-full", "h-[200px]", "px-6", "py-4", "flex", "justify-between", "items-center", "bg-indigo-700", "hover:border-4", "hover:border-green-400", "border", "rounded-md", "cursor-pointer")
 

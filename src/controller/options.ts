@@ -1,6 +1,15 @@
-import { OPTIONS_DATA } from "../model/constants";
+import { OPTIONS_DATA } from "../view/constants";
 import { createDetailView } from "../view/detail";
 import { createOptionsView } from "../view/options";
+
+export type OptionsViewData = {
+  id: number;
+  label: string;
+  desc: string;
+  maxPurchases: number;
+  price: number;
+  img: string;
+}[]
 
 export type DetailViewData = {
   id: number
@@ -19,13 +28,13 @@ export const optionsController = () => {
 
       // when clicking go back
       document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
-        createOptionsView()
+        createOptionsView(OPTIONS_DATA)
         optionsController() // like a recursive processing
       })
 
       // when clicking purchase
       document.getElementById(`js-purchase-${data.id}`)?.addEventListener("click", () => {
-        createOptionsView()
+        createOptionsView(OPTIONS_DATA)
         optionsController() // like a recursive processing
       })
     });
