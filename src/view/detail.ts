@@ -1,6 +1,8 @@
 import { DetailViewData } from "../controller/options"
 import { options_container } from "./common/containers"
 
+//TODO: max purchases - current purchases
+
 // rendering detail
 export const createDetailView = (data: DetailViewData) => {
   options_container.innerHTML = ""
@@ -26,6 +28,8 @@ export const createDetailView = (data: DetailViewData) => {
     placeholder="Enter your first deposit"
     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     value="0"
+    min="0"
+    max="${data.maxPurchases}"
     required
   />
   <span id="js-total-view" class="text-right text-white">total: ￥0</span>

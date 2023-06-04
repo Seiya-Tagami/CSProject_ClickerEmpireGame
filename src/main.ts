@@ -1,21 +1,19 @@
 import { hamburgerController } from "./controller/hamburger";
 import { optionsController } from "./controller/options";
 import { user } from "./model/user";
-import { createOptionsView } from "./view/options";
 import { StatusData, createStatusView } from "./view/status";
-import { OPTIONS_DATA } from "./view/constants";
 import { statusController } from "./controller/status";
+import { purchase } from "./model/purchase";
 
 const InitInjectingData: StatusData = {
   username: user.username,
-  old: user.old,
-  days: user.days,
-  yen: user.yen
+  old: purchase.old,
+  days: purchase.days,
+  yen: purchase.yen
 }
 
 const initView = () => {
   createStatusView(InitInjectingData)
-  createOptionsView(OPTIONS_DATA)
 }
 
 const initController = () => {

@@ -1,17 +1,17 @@
-import { user } from "../model/user"
+import { purchase } from "../model/purchase"
 import { createCountingUpBurgersView, createHamburgerView } from "../view/hamburger"
 import { createCountingUpYenView } from "../view/status"
 
 export const hamburgerController = () => {
   const injectingData = {
-    burgers: user.burgers,
+    burgers: purchase.burgers,
   }
 
   createHamburgerView(injectingData)
 
   document.getElementById("js-hamburger-click")?.addEventListener("click", () => {
-    user.clickBurger()
-    createCountingUpBurgersView(user.burgers)
-    createCountingUpYenView(user.yen)
+    purchase.clickBurger()
+    createCountingUpBurgersView(purchase.burgers)
+    createCountingUpYenView(purchase.yen)
   })
 }

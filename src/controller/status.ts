@@ -1,16 +1,15 @@
-import { user } from "../model/user";
+import { purchase } from "../model/purchase";
 import { createCountingUpDays, createCountingUpYearsOld } from "../view/status";
 
 export const statusController = () => {
 
   // days and years old processing
   setInterval(() => {
-    user.incrementDays()
-    createCountingUpDays(user.days)
-    if (user.days % 365 == 0) {
-      user.incrementOld()
-      console.log(user.old)
-      createCountingUpYearsOld(user.old)
+    purchase.incrementDays()
+    createCountingUpDays(purchase.days)
+    if (purchase.days % 365 == 0) {
+      purchase.incrementOld()
+      createCountingUpYearsOld(purchase.old)
     }
   }, 1000)
 }
