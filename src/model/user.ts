@@ -20,11 +20,12 @@ class User {
     this.yen += this.oneClick
   }
 
-  autoIncrementDays() {
-    setInterval(() => {
-      this.days++
-      console.log(this.days)
-    }, 1000)
+  incrementOld() {
+    this.old++
+  }
+
+  incrementDays() {
+    this.days++
   }
 }
 
