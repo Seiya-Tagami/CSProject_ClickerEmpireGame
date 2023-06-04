@@ -30,7 +30,6 @@ export const createDetailView = (data: DetailViewData, purchasedItemNums: number
     value="0"
     min="0"
     max="${data.maxPurchases - purchasedItemNums}"
-    required
   />
   <span id="js-total-view" class="text-right text-white">total: ￥0</span>
 </div>

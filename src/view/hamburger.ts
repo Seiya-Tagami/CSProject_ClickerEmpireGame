@@ -14,7 +14,7 @@ export const createHamburgerView = (data: HamburgerViewData) => {
       <span id="js-nums-of-burgers">${data.burgers} Burgers</span>
       <span id="js-one-click">one click ￥25</span>
     </div>
-    <img src="images/hamburger.png" alt="" id="js-hamburger-click" class="w-full mt-16 cursor-pointer" />
+    <img src="images/hamburger.png" alt="" id="js-hamburger-click" class="w-full mt-16 cursor-pointer hover:brightness-90" />
   `
 
   hamburger_container.append(hamburger_view)
