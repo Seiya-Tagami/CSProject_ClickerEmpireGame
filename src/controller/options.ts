@@ -41,7 +41,6 @@ export const optionsController = () => {
   if (startAutoIncrementYen) {
     clearIntervalId = setInterval(() => {
       purchase.incrementYenByAutoAddingValuePerSec();
-      console.log(purchase.yen)
       createCountingYenView(purchase.yen)
     }, 1000)
   }
@@ -49,15 +48,7 @@ export const optionsController = () => {
   OPTIONS_DATA.forEach((data, index) => {
     document.querySelector(`.js-button-${data.id}`)?.addEventListener("click", () => {
       const injectingData = OPTIONS_DATA.find((data) => data.id == index + 1) as unknown as DetailViewData
-      createDetailView(injectingData);
-
-
-      /**
-       * when clicking go back
-       */
-      document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
-        restartOptionsController(clearIntervalId)
-      })
+      createDetailView(injectingData, purchase.options[index].purchasedItemNums);
 
       /**
        * counting total yen
@@ -73,6 +64,13 @@ export const optionsController = () => {
           total = inputValue * price
           createCountingTotalView(total)
         }
+      })
+
+      /**
+       * when clicking go back
+       */
+      document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
+        restartOptionsController(clearIntervalId)
       })
 
       /**

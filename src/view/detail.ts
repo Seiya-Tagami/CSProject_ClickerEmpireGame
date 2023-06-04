@@ -1,10 +1,10 @@
 import { DetailViewData } from "../controller/options"
 import { options_container } from "./common/containers"
 
-//TODO: max purchases - current purchases
+//TODO: 個数のバリデーションが弱い
 
 // rendering detail
-export const createDetailView = (data: DetailViewData) => {
+export const createDetailView = (data: DetailViewData, purchasedItemNums: number) => {
   options_container.innerHTML = ""
 
   const detail_view = document.createElement("div")
@@ -29,7 +29,7 @@ export const createDetailView = (data: DetailViewData) => {
     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     value="0"
     min="0"
-    max="${data.maxPurchases}"
+    max="${data.maxPurchases - purchasedItemNums}"
     required
   />
   <span id="js-total-view" class="text-right text-white">total: ￥0</span>

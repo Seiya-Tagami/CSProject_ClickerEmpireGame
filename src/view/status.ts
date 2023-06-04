@@ -7,6 +7,7 @@ export type StatusData = {
   yen: number
 }
 
+// rendering status
 export const createStatusView = (data: StatusData) => {
   const status_view = document.createElement("div");
   status_view.classList.add("w-full", "flex", "justify-evenly", "gap-2")
