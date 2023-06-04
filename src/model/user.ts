@@ -6,4 +6,4 @@ class User {
   }
 }
 
-export const user = new User("Shiba")
+export const user = new User("")

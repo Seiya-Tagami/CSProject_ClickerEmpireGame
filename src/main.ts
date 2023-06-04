@@ -1,10 +1,8 @@
 // -- This application's entry file.
-import { hamburgerController, statusController, optionsController } from "./controller";
+import { loginController } from "./controller/login";
 
 const initApp = () => {
-  statusController()
-  optionsController()
-  hamburgerController()
+  loginController()
 }
 
 initApp()
