@@ -7,7 +7,7 @@ export const loginController = () => {
 
   document.getElementById("js-new-button")?.addEventListener("click", () => {
     const newUserName = <HTMLInputElement>document.getElementById("js-login-input")
-    user.username = newUserName.value;
+    user.initUser(newUserName.value)
     removeLoginView()
 
     /**
