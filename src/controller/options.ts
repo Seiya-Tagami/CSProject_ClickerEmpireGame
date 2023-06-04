@@ -1,5 +1,5 @@
 import { OPTIONS_DATA } from "../view/constants";
-import { createDetailView } from "../view/detail";
+import { createCountingTotalView, createDetailView } from "../view/detail";
 import { createOptionsView } from "../view/options";
 
 export type OptionsViewData = {
@@ -26,6 +26,18 @@ export const optionsController = () => {
       const injectingData = OPTIONS_DATA.find((data) => data.id == index + 1) as unknown as DetailViewData
       createDetailView(injectingData);
 
+      // counting total yen
+      let total: number = 0;
+      document.getElementById(`js-input-${data.id}`)?.addEventListener("change", (e: Event) => {
+        const target = e.target as HTMLInputElement | null;
+        if (target) {
+          let inputValue = parseInt(target.value, 10);
+          let price = parseInt(injectingData.price)
+          total = 0 <= inputValue * price ? inputValue * price : 0
+          createCountingTotalView(total)
+        }
+      })
+
       // when clicking go back
       document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
         createOptionsView(OPTIONS_DATA)
@@ -34,6 +46,9 @@ export const optionsController = () => {
 
       // when clicking purchase
       document.getElementById(`js-purchase-${data.id}`)?.addEventListener("click", () => {
+        if (total == 0) {
+          alert("invalid number")
+        }
         createOptionsView(OPTIONS_DATA)
         optionsController() // like a recursive processing
       })

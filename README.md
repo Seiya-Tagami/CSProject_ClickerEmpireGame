@@ -14,7 +14,7 @@ model --
 
 controller --
 
-1. view からのユーザーのイベントをキャッチする
+1. view からユーザーのイベントをキャッチする
 2. model へデータの変更を命令
 3. model のデータを view へ流し込む
 

@@ -31,18 +31,18 @@ export const createStatusView = (data: StatusData) => {
 
 // re-rendering years old
 export const createCountingUpYearsOld = (old: number) => {
-  const years_old_view_container = document.getElementById('js-years-old-view') as HTMLSpanElement
+  const years_old_view_container = <HTMLSpanElement>document.getElementById('js-years-old-view')
   years_old_view_container.innerText = `${old} years old`
 }
 
 // re-rendering days
 export const createCountingUpDays = (days: number) => {
-  const days_view_container = document.getElementById("js-days-view") as HTMLSpanElement
+  const days_view_container = <HTMLSpanElement>document.getElementById("js-days-view")
   days_view_container.innerText = `${days} days`
 }
 
 // re-rendering yen
 export const createCountingUpYenView = (yen: number) => {
-  const yen_view_container = document.getElementById("js-yen-view") as HTMLSpanElement
+  const yen_view_container = <HTMLSpanElement>document.getElementById("js-yen-view")
   yen_view_container.innerText = `¥${yen}`
 }

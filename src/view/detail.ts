@@ -22,13 +22,13 @@ export const createDetailView = (data: DetailViewData) => {
   <input
     type="number"
     name="userFirstDeposit"
-    id=""
+    id="js-input-${data.id}"
     placeholder="Enter your first deposit"
     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     value="0"
     required
   />
-  <span class="text-right text-white">total: ￥0</span>
+  <span id="js-total-view" class="text-right text-white">total: ￥0</span>
 </div>
 <div class="flex gap-4 mt-2">
   <button
@@ -49,4 +49,9 @@ export const createDetailView = (data: DetailViewData) => {
   `
 
   options_container.append(detail_view)
+}
+
+export const createCountingTotalView = (yen: number) => {
+  const total_view = <HTMLSpanElement>document.getElementById("js-total-view")
+  total_view.innerHTML = `total: ￥${yen}`
 }
