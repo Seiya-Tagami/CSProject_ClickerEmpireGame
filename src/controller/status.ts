@@ -1,9 +1,21 @@
 import { purchase } from "../model/purchase";
-import { createCountingUpDays, createCountingUpYearsOld } from "../view/status";
+import { user } from "../model/user";
+import { StatusData, createCountingUpDays, createCountingUpYearsOld, createStatusView } from "../view/status";
+
 
 export const statusController = () => {
+  const InitInjectingData: StatusData = {
+    username: user.username,
+    old: purchase.old,
+    days: purchase.days,
+    yen: purchase.yen
+  }
 
-  // days and years old processing
+  createStatusView(InitInjectingData)
+
+  /**
+   * calculating and injecting days and years old
+   */
   setInterval(() => {
     purchase.incrementDays()
     createCountingUpDays(purchase.days)

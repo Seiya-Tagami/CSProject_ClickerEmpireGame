@@ -19,7 +19,7 @@ export const createOptionsView = (data: OptionsViewData, options: option[]) => {
       </div>
     </div>
     <div class="flex flex-col items-end p-2 text-white font-bold">
-      <span class="text-3xl">${options[index].nums}</span>
+      <span class="text-3xl">${options[index].purchasedItemNums}</span>
       <span class="text-green-500">${d.desc}</span>
     </div>
   `

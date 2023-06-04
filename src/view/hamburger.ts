@@ -12,7 +12,7 @@ export const createHamburgerView = (data: HamburgerViewData) => {
   hamburger_view.innerHTML = `
     <div class="flex flex-col items-center p-2 bg-indigo-700 text-white font-bold rounded">
       <span id="js-nums-of-burgers">${data.burgers} Burgers</span>
-      <span>one click ￥25</span>
+      <span id="js-one-click">one click ￥25</span>
     </div>
     <img src="images/hamburger.png" alt="" id="js-hamburger-click" class="w-full mt-16 cursor-pointer" />
   `
@@ -23,4 +23,9 @@ export const createHamburgerView = (data: HamburgerViewData) => {
 export const createCountingUpBurgersView = (burgers: number) => {
   const nums_of_burgers_container = <HTMLSpanElement>document.getElementById("js-nums-of-burgers")
   nums_of_burgers_container.innerText = `${burgers} Burgers`
+}
+
+export const createCountingUpOneClickView = (newOneClick: number) => {
+  const one_click_container = <HTMLSpanElement>document.getElementById("js-one-click")
+  one_click_container.innerText = `one click ￥${newOneClick}`
 }

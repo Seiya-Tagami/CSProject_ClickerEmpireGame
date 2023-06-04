@@ -1,7 +1,9 @@
 import { purchase } from "../model/purchase";
-import { OPTIONS_DATA } from "../view/constants";
+import { OPTIONS_DATA } from "../model/constants";
 import { createCountingTotalView, createDetailView } from "../view/detail";
+import { createCountingUpOneClickView } from "../view/hamburger";
 import { createOptionsView } from "../view/options";
+import { createCountingYenView } from "../view/status";
 
 export type OptionsViewData = {
   id: number;
@@ -21,42 +23,93 @@ export type DetailViewData = {
   img: string
 }
 
+export type PurchaseModelData = {
+  id: number,
+  nums: number,
+  price: number
+}
+
+let startAutoIncrementYen = false;
+let clearIntervalId: number | undefined;
+
 export const optionsController = () => {
-  createOptionsView(OPTIONS_DATA, purchase.options)
+  createOptionsView(OPTIONS_DATA, purchase.options);
+
+  /**
+   * if startAutoIncrementYen is true, increase yen automatically
+   */
+  if (startAutoIncrementYen) {
+    clearIntervalId = setInterval(() => {
+      purchase.incrementYenByAutoAddingValuePerSec();
+      createCountingYenView(purchase.yen)
+    }, 1000)
+  }
 
   OPTIONS_DATA.forEach((data, index) => {
     document.querySelector(`.js-button-${data.id}`)?.addEventListener("click", () => {
       const injectingData = OPTIONS_DATA.find((data) => data.id == index + 1) as unknown as DetailViewData
       createDetailView(injectingData);
 
-      // counting total yen
+
+      /**
+       * when clicking go back
+       */
+      document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
+        optionsController() // like a recursive processing
+      })
+
+      /**
+       * counting total yen
+       */
       let total: number = 0;
+      let inputValue: number = 0;
+      let price: number = 0;
       document.getElementById(`js-input-${data.id}`)?.addEventListener("change", (e: Event) => {
         const target = e.target as HTMLInputElement | null;
         if (target) {
-          let inputValue = parseInt(target.value, 10);
-          let price = parseInt(injectingData.price)
+          inputValue = parseInt(target.value, 10);
+          price = parseInt(injectingData.price)
           total = inputValue * price
           createCountingTotalView(total)
         }
       })
 
-      // when clicking go back
-      document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
-        optionsController() // like a recursive processing
-      })
-
-      // when clicking purchase
+      /**
+       * when clicking purchase
+       */
       document.getElementById(`js-purchase-${data.id}`)?.addEventListener("click", () => {
-        // validation
         if (total == 0) {
           alert("invalid number")
+          restartOptionsController(clearIntervalId)
+          return
         } else if (purchase.yen < total) {
           alert("You don't have enough money!")
+          restartOptionsController(clearIntervalId)
+          return
         }
 
-        optionsController() // like a recursive processing
+        const injectingData = {
+          id: data.id,
+          nums: inputValue,
+          price: price
+        }
+
+        purchase.purchaseItem(injectingData)
+
+        if (0 < purchase.autoAddingValuePerSec) {
+          startAutoIncrementYen = true;
+        }
+
+        createCountingYenView(purchase.yen)
+        createCountingUpOneClickView(purchase.oneClick)
+
+        restartOptionsController(clearIntervalId)
       })
     });
   })
 };
+
+const restartOptionsController = (clearIntervalId: number | undefined) => {
+  clearInterval(clearIntervalId)
+  optionsController()
+}

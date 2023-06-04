@@ -1,26 +1,10 @@
-import { hamburgerController } from "./controller/hamburger";
-import { optionsController } from "./controller/options";
-import { user } from "./model/user";
-import { StatusData, createStatusView } from "./view/status";
-import { statusController } from "./controller/status";
-import { purchase } from "./model/purchase";
+// -- This application's entry file.
+import { hamburgerController, statusController, optionsController } from "./controller";
 
-const InitInjectingData: StatusData = {
-  username: user.username,
-  old: purchase.old,
-  days: purchase.days,
-  yen: purchase.yen
-}
-
-const initView = () => {
-  createStatusView(InitInjectingData)
-}
-
-const initController = () => {
+const initApp = () => {
   statusController()
   optionsController()
   hamburgerController()
 }
 
-initView()
-initController()
+initApp()

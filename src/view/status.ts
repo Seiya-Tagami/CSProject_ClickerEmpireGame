@@ -42,7 +42,7 @@ export const createCountingUpDays = (days: number) => {
 }
 
 // re-rendering yen
-export const createCountingUpYenView = (yen: number) => {
+export const createCountingYenView = (yen: number) => {
   const yen_view_container = <HTMLSpanElement>document.getElementById("js-yen-view")
   yen_view_container.innerText = `¥${yen}`
 }
