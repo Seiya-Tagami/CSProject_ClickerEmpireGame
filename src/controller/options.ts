@@ -41,6 +41,7 @@ export const optionsController = () => {
   if (startAutoIncrementYen) {
     clearIntervalId = setInterval(() => {
       purchase.incrementYenByAutoAddingValuePerSec();
+      console.log(purchase.yen)
       createCountingYenView(purchase.yen)
     }, 1000)
   }
@@ -55,7 +56,7 @@ export const optionsController = () => {
        * when clicking go back
        */
       document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
-        optionsController() // like a recursive processing
+        restartOptionsController(clearIntervalId)
       })
 
       /**
