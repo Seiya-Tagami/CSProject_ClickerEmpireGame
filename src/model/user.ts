@@ -1,3 +1,8 @@
+export type TUser = {
+  id: number
+  username: string
+}
+
 class User {
   username: string;
 
@@ -9,8 +14,20 @@ class User {
     this.username = username
   }
 
+  initUsersLocalStorage() {
+    if (!localStorage.getItem("users")) {
+      localStorage.setItem("users", JSON.stringify([]))
+    }
+  }
+
   setUserNameToLocalStorage() {
-    localStorage.setItem("username", this.username)
+    const users = JSON.parse(localStorage.getItem('users')!) as TUser[]
+    if (users.find(user => user.username === this.username)) {
+      alert("Saved your data. Please put the same name when you login.")
+      return
+    }
+    users.push({ id: users.length, username: this.username })
+    localStorage.setItem("users", JSON.stringify(users))
     alert("Saved your data. Please put the same name when you login.")
   }
 }

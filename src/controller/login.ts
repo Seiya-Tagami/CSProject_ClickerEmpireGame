@@ -1,5 +1,5 @@
 import { hamburgerController, optionsController, statusController } from ".";
-import { user } from "../model/user";
+import { TUser, user } from "../model/user";
 import { game_container, login_container } from "../view/common/containers";
 import { createLoginView } from "../view/login"
 import { removeCurrentView } from "../view/utils/removeView";
@@ -11,9 +11,13 @@ export const loginController = () => {
   const loginInput = <HTMLInputElement>document.getElementById("js-login-input")
 
   document.getElementById("js-new-button")?.addEventListener("click", () => {
-
     if (loginInput.value) {
-      startGame(loginInput.value)
+      const savedUsers = JSON.parse(localStorage.getItem("users")!) as TUser[]
+      if (savedUsers.find(user => user.username === loginInput.value)) {
+        alert("this user already exist")
+      } else {
+        startGame(loginInput.value)
+      }
     } else {
       alert("please type your name to play game")
     }
@@ -21,15 +25,15 @@ export const loginController = () => {
 
   document.getElementById("js-login-button")?.addEventListener("click", () => {
     if (loginInput.value) {
-      const savedUserName = localStorage.getItem("username");
-      if (savedUserName === loginInput.value) {
+
+      const savedUsers = JSON.parse(localStorage.getItem("users")!) as TUser[]
+      if (savedUsers.find(user => user.username === loginInput.value)) {
         startGame(loginInput.value)
       } else {
         alert("no data found")
       }
     } else {
       alert("please type your name to play game")
-
     }
   })
 }
