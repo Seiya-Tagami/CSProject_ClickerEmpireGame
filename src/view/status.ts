@@ -1,4 +1,4 @@
-const status_container = document.getElementById("js-status-container") as HTMLDivElement
+const status_container = document.getElementById('js-status-container') as HTMLDivElement
 
 export type TStatusData = {
   username: string
@@ -11,8 +11,8 @@ export type TStatusData = {
 export const createStatusView = (data: TStatusData) => {
   status_container.innerHTML = ''
 
-  const status_view = document.createElement("div");
-  status_view.classList.add("w-full", "flex", "justify-evenly", "gap-2")
+  const status_view = document.createElement('div')
+  status_view.classList.add('w-full', 'flex', 'justify-evenly', 'gap-2')
 
   status_view.innerHTML = `
   <div class="max-w-[260px] w-full p-2 flex justify-center items-center bg-violet-500 text-center text-white font-bold rounded-md">
@@ -40,12 +40,12 @@ export const createCountingUpYearsOld = (old: number) => {
 
 // re-rendering days
 export const createCountingUpDays = (days: number) => {
-  const days_view_container = <HTMLSpanElement>document.getElementById("js-days-view")
+  const days_view_container = <HTMLSpanElement>document.getElementById('js-days-view')
   days_view_container.innerText = `${days} days`
 }
 
 // re-rendering yen
 export const createCountingYenView = (yen: number) => {
-  const yen_view_container = <HTMLSpanElement>document.getElementById("js-yen-view")
+  const yen_view_container = <HTMLSpanElement>document.getElementById('js-yen-view')
   yen_view_container.innerText = `¥${yen}`
 }

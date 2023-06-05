@@ -1,17 +1,17 @@
-import { purchase } from "../model/purchase";
-import { OPTIONS_DATA } from "../model/constants";
-import { createCountingTotalView, createDetailView } from "../view/detail";
-import { createCountingUpOneClickView } from "../view/hamburger";
-import { createOptionsView } from "../view/options";
-import { createCountingYenView } from "../view/status";
+import { purchase } from '../model/purchase'
+import { OPTIONS_DATA } from '../model/constants'
+import { createCountingTotalView, createDetailView } from '../view/detail'
+import { createCountingUpOneClickView } from '../view/hamburger'
+import { createOptionsView } from '../view/options'
+import { createCountingYenView } from '../view/status'
 
 export type TOptionsViewData = {
-  id: number;
-  label: string;
-  desc: string;
-  maxPurchases: number;
-  price: number;
-  img: string;
+  id: number
+  label: string
+  desc: string
+  maxPurchases: number
+  price: number
+  img: string
 }[]
 
 export type TDetailViewData = {
@@ -24,42 +24,44 @@ export type TDetailViewData = {
 }
 
 export type TPurchaseModelData = {
-  id: number,
-  nums: number,
+  id: number
+  nums: number
   price: number
 }
 
-let startAutoIncrementYen = false;
-let clearAutoIncrementIntervalId: number | undefined;
+let startAutoIncrementYen = false
+let clearAutoIncrementIntervalId: number | undefined
 
 export const optionsController = () => {
-  createOptionsView(OPTIONS_DATA, purchase.options);
+  createOptionsView(OPTIONS_DATA, purchase.options)
 
   /**
    * if startAutoIncrementYen is true, increase yen automatically
    */
   if (startAutoIncrementYen) {
     clearAutoIncrementIntervalId = setInterval(() => {
-      purchase.incrementYenByAutoAddingValuePerSec();
+      purchase.incrementYenByAutoAddingValuePerSec()
       createCountingYenView(purchase.yen)
     }, 1000)
   }
 
   OPTIONS_DATA.forEach((data, index) => {
-    document.querySelector(`.js-button-${data.id}`)?.addEventListener("click", () => {
-      const injectingData = OPTIONS_DATA.find((data) => data.id == index + 1) as unknown as TDetailViewData
-      createDetailView(injectingData, purchase.options[index].purchasedItemNums);
+    document.querySelector(`.js-button-${data.id}`)?.addEventListener('click', () => {
+      const injectingData = OPTIONS_DATA.find(
+        (data) => data.id == index + 1,
+      ) as unknown as TDetailViewData
+      createDetailView(injectingData, purchase.options[index].purchasedItemNums)
 
       /**
        * counting total yen
        */
-      let total: number = 0;
-      let inputValue: number = 0;
-      let price: number = 0;
-      document.getElementById(`js-input-${data.id}`)?.addEventListener("change", (e: Event) => {
-        const target = e.target as HTMLInputElement | null;
+      let total = 0
+      let inputValue = 0
+      let price = 0
+      document.getElementById(`js-input-${data.id}`)?.addEventListener('change', (e: Event) => {
+        const target = e.target as HTMLInputElement | null
         if (target) {
-          inputValue = parseInt(target.value, 10);
+          inputValue = parseInt(target.value, 10)
           price = parseInt(injectingData.price)
           total = inputValue * price
           createCountingTotalView(total)
@@ -69,16 +71,16 @@ export const optionsController = () => {
       /**
        * when clicking go back
        */
-      document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
+      document.getElementById(`js-go-back-${data.id}`)?.addEventListener('click', () => {
         restartOptionsController(clearAutoIncrementIntervalId)
       })
 
       /**
        * when clicking purchase
        */
-      document.getElementById(`js-purchase-${data.id}`)?.addEventListener("click", () => {
+      document.getElementById(`js-purchase-${data.id}`)?.addEventListener('click', () => {
         if (total == 0) {
-          alert("invalid number")
+          alert('invalid number')
           restartOptionsController(clearAutoIncrementIntervalId)
           return
         } else if (purchase.yen < total) {
@@ -90,13 +92,13 @@ export const optionsController = () => {
         const injectingData = {
           id: data.id,
           nums: inputValue,
-          price: price
+          price: price,
         }
 
         purchase.purchaseItem(injectingData)
 
         if (0 < purchase.autoAddingValuePerSec) {
-          startAutoIncrementYen = true;
+          startAutoIncrementYen = true
         }
 
         createCountingYenView(purchase.yen)
@@ -104,9 +106,9 @@ export const optionsController = () => {
 
         restartOptionsController(clearAutoIncrementIntervalId)
       })
-    });
+    })
   })
-};
+}
 
 const restartOptionsController = (clearAutoIncrementIntervalId: number | undefined) => {
   clearInterval(clearAutoIncrementIntervalId)

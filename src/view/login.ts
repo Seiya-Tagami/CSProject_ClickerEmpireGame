@@ -1,10 +1,10 @@
-import { login_container } from "./common/containers";
+import { login_container } from './common/containers'
 
 export const createLoginView = () => {
-  login_container.innerHTML = "";
+  login_container.innerHTML = ''
 
-  const login_view = document.createElement('form');
-  login_view.classList.add("space-y-6");
+  const login_view = document.createElement('form')
+  login_view.classList.add('space-y-6')
   login_view.innerHTML = `
         <h5 class="text-4xl font-medium text-gray-900 text-center">Clicker Empire Game</h5>
         <div>
