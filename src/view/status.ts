@@ -9,6 +9,8 @@ export type StatusData = {
 
 // rendering status
 export const createStatusView = (data: StatusData) => {
+  status_container.innerHTML = ''
+
   const status_view = document.createElement("div");
   status_view.classList.add("w-full", "flex", "justify-evenly", "gap-2")
 

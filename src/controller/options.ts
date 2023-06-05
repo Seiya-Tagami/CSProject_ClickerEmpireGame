@@ -30,7 +30,7 @@ export type PurchaseModelData = {
 }
 
 let startAutoIncrementYen = false;
-let clearIntervalId: number | undefined;
+let clearAutoIncrementIntervalId: number | undefined;
 
 export const optionsController = () => {
   createOptionsView(OPTIONS_DATA, purchase.options);
@@ -39,7 +39,7 @@ export const optionsController = () => {
    * if startAutoIncrementYen is true, increase yen automatically
    */
   if (startAutoIncrementYen) {
-    clearIntervalId = setInterval(() => {
+    clearAutoIncrementIntervalId = setInterval(() => {
       purchase.incrementYenByAutoAddingValuePerSec();
       createCountingYenView(purchase.yen)
     }, 1000)
@@ -70,7 +70,7 @@ export const optionsController = () => {
        * when clicking go back
        */
       document.getElementById(`js-go-back-${data.id}`)?.addEventListener("click", () => {
-        restartOptionsController(clearIntervalId)
+        restartOptionsController(clearAutoIncrementIntervalId)
       })
 
       /**
@@ -79,11 +79,11 @@ export const optionsController = () => {
       document.getElementById(`js-purchase-${data.id}`)?.addEventListener("click", () => {
         if (total == 0) {
           alert("invalid number")
-          restartOptionsController(clearIntervalId)
+          restartOptionsController(clearAutoIncrementIntervalId)
           return
         } else if (purchase.yen < total) {
           alert("You don't have enough money!")
-          restartOptionsController(clearIntervalId)
+          restartOptionsController(clearAutoIncrementIntervalId)
           return
         }
 
@@ -102,13 +102,13 @@ export const optionsController = () => {
         createCountingYenView(purchase.yen)
         createCountingUpOneClickView(purchase.oneClick)
 
-        restartOptionsController(clearIntervalId)
+        restartOptionsController(clearAutoIncrementIntervalId)
       })
     });
   })
 };
 
-const restartOptionsController = (clearIntervalId: number | undefined) => {
-  clearInterval(clearIntervalId)
+const restartOptionsController = (clearAutoIncrementIntervalId: number | undefined) => {
+  clearInterval(clearAutoIncrementIntervalId)
   optionsController()
 }

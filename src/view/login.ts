@@ -1,5 +1,4 @@
-export const login_container = <HTMLDivElement>document.getElementById("js-login-container")
-export const game_container = <HTMLDivElement>document.getElementById("js-game-container")
+import { login_container } from "./common/containers";
 
 export const createLoginView = () => {
   login_container.innerHTML = "";
@@ -37,10 +36,4 @@ export const createLoginView = () => {
   `
 
   login_container.append(login_view)
-}
-
-export const removeLoginView = () => {
-  login_container.innerHTML = "";
-  login_container.classList.add("hidden")
-  game_container.classList.remove("hidden")
 }

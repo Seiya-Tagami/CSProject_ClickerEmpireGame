@@ -5,8 +5,13 @@ class User {
     this.username = username
   }
 
-  initUser(username: string) {
+  setUsername(username: string) {
     this.username = username
+  }
+
+  setUserNameToLocalStorage() {
+    localStorage.setItem("username", this.username)
+    alert("Saved your data. Please put the same name when you login.")
   }
 }
 

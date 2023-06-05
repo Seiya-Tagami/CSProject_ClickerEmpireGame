@@ -3,6 +3,7 @@ import { user } from "../model/user";
 import { StatusData, createCountingUpDays, createCountingUpYearsOld, createStatusView } from "../view/status";
 
 
+let clearCountingDaysIntervalId: number | undefined;
 export const statusController = () => {
   const InitInjectingData: StatusData = {
     username: user.username,
@@ -16,7 +17,7 @@ export const statusController = () => {
   /**
    * calculating and injecting days and years old
    */
-  setInterval(() => {
+  clearCountingDaysIntervalId = setInterval(() => {
     purchase.incrementDays()
     createCountingUpDays(purchase.days)
     if (purchase.days % 365 == 0) {
