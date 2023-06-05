@@ -5,6 +5,7 @@ import { createCountingYenView } from '../view/status';
 export const hamburgerController = () => {
   const injectingData = {
     burgers: purchase.burgers,
+    oneClick: purchase.oneClick,
   };
 
   createHamburgerView(injectingData);

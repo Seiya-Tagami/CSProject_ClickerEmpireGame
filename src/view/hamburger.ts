@@ -2,6 +2,7 @@ import { hamburger_container } from './common/containers';
 
 type HamburgerViewData = {
   burgers: number;
+  oneClick: number;
 };
 
 export const createHamburgerView = (data: HamburgerViewData) => {
@@ -12,7 +13,7 @@ export const createHamburgerView = (data: HamburgerViewData) => {
   hamburger_view.innerHTML = `
     <div class="flex flex-col items-center p-2 bg-indigo-700 text-white font-bold rounded">
       <span id="js-nums-of-burgers">${data.burgers} Burgers</span>
-      <span id="js-one-click">one click ￥25</span>
+      <span id="js-one-click">one click ￥${data.oneClick}</span>
     </div>
     <img src="images/hamburger.png" alt="" id="js-hamburger-click" class="w-full mt-16 cursor-pointer hover:brightness-90" />
   `;
