@@ -4,17 +4,17 @@ import {
   restartHamburgerController,
   restartOptionsController,
   restartStatusController,
-} from '.'
-import { purchase } from '../model/purchase'
+} from '.';
+import { purchase } from '../model/purchase';
 
 export const resetController = () => {
   document.getElementById('js-reset-button')?.addEventListener('click', () => {
     if (window.confirm('Reset All Data?')) {
-      purchase.resetItems()
+      purchase.resetData();
     }
 
-    restartStatusController(clearAutoIncrementDaysId)
-    restartOptionsController(clearAutoIncrementIntervalId)
-    restartHamburgerController()
-  })
-}
+    restartStatusController(clearAutoIncrementDaysId);
+    restartOptionsController(clearAutoIncrementIntervalId);
+    restartHamburgerController();
+  });
+};

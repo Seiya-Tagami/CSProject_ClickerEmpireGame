@@ -1,36 +1,35 @@
 export type TUser = {
-  id: number
-  username: string
-}
+  id: number;
+  username: string;
+};
 
 class User {
-  username: string
+  username: string;
 
   constructor(username: string) {
-    this.username = username
+    this.username = username;
   }
 
   setUsername(username: string) {
-    this.username = username
+    this.username = username;
   }
 
   initUsersLocalStorage() {
     if (!localStorage.getItem('users')) {
-      localStorage.setItem('users', JSON.stringify([]))
+      localStorage.setItem('users', JSON.stringify([]));
     }
   }
 
-  setUserNameToLocalStorage() {
-    const storedUsers = localStorage.getItem('users')
-    const users = storedUsers ? (JSON.parse(storedUsers) as TUser[]) : []
+  saveUserNameToLocalStorage() {
+    const storedUsers = localStorage.getItem('users');
+    const users = storedUsers ? (JSON.parse(storedUsers) as TUser[]) : [];
     if (users.find((user) => user.username === this.username)) {
-      alert('Saved your data. Please put the same name when you login.')
-      return
+      return true;
     }
-    users.push({ id: users.length, username: this.username })
-    localStorage.setItem('users', JSON.stringify(users))
-    alert('Saved your data. Please put the same name when you login.')
+    users.push({ id: users.length, username: this.username });
+    localStorage.setItem('users', JSON.stringify(users));
+    return true;
   }
 }
 
-export const user = new User('')
+export const user = new User('');

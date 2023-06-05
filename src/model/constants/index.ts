@@ -87,4 +87,4 @@ export const OPTIONS_DATA = [
     price: 10000000000000,
     img: 'images/high-speed-train.png',
   },
-]
+];

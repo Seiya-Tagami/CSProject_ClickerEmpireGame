@@ -1,13 +1,13 @@
-import { TOptionsViewData } from '../controller/options'
-import { TOption } from '../model/purchase'
-import { options_container } from './common/containers'
+import { TOptionsViewData } from '../controller/options';
+import { TOption } from '../model/purchase';
+import { options_container } from './common/containers';
 
 // rendering options
 export const createOptionsView = (data: TOptionsViewData, options: TOption[]) => {
-  options_container.innerHTML = ''
+  options_container.innerHTML = '';
 
   const options_view: HTMLDivElement[] = data.map((d, index) => {
-    const option_view_div = document.createElement('div')
+    const option_view_div = document.createElement('div');
     option_view_div.classList.add(
       `js-button-${d.id}`,
       'w-full',
@@ -23,7 +23,7 @@ export const createOptionsView = (data: TOptionsViewData, options: TOption[]) =>
       'border',
       'rounded-md',
       'cursor-pointer',
-    )
+    );
 
     option_view_div.innerHTML = `
     <div class="flex items-center gap-2">
@@ -37,11 +37,11 @@ export const createOptionsView = (data: TOptionsViewData, options: TOption[]) =>
       <span class="text-3xl">${options[index].purchasedItemNums}</span>
       <span class="text-green-500">${d.desc}</span>
     </div>
-  `
-    return option_view_div
-  })
+  `;
+    return option_view_div;
+  });
 
   options_view.forEach((option) => {
-    options_container.append(option)
-  })
-}
+    options_container.append(option);
+  });
+};

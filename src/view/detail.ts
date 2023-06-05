@@ -1,14 +1,14 @@
-import { TDetailViewData } from '../controller/options'
-import { options_container } from './common/containers'
+import { TDetailViewData } from '../controller/options';
+import { options_container } from './common/containers';
 
 //TODO: 個数のバリデーションが弱い
 
 // rendering detail
 export const createDetailView = (data: TDetailViewData, purchasedItemNums: number) => {
-  options_container.innerHTML = ''
+  options_container.innerHTML = '';
 
-  const detail_view = document.createElement('div')
-  detail_view.classList.add('w-full', 'bg-indigo-700', 'p-4', 'rounded-lg')
+  const detail_view = document.createElement('div');
+  detail_view.classList.add('w-full', 'bg-indigo-700', 'p-4', 'rounded-lg');
   detail_view.innerHTML = `
   <div class="flex justify-around items-center">
   <div class="flex flex-col gap-2 text-white">
@@ -49,12 +49,12 @@ export const createDetailView = (data: TDetailViewData, purchasedItemNums: numbe
     Purchase
   </button>
 </div>
-  `
+  `;
 
-  options_container.append(detail_view)
-}
+  options_container.append(detail_view);
+};
 
 export const createCountingTotalView = (yen: number) => {
-  const total_view = <HTMLSpanElement>document.getElementById('js-total-view')
-  total_view.innerHTML = `total: ￥${yen}`
-}
+  const total_view = <HTMLSpanElement>document.getElementById('js-total-view');
+  total_view.innerHTML = `total: ￥${yen}`;
+};
