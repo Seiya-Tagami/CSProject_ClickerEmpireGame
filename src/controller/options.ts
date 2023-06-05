@@ -30,7 +30,7 @@ export type TPurchaseModelData = {
 }
 
 let startAutoIncrementYen = false
-let clearAutoIncrementIntervalId: number | undefined
+export let clearAutoIncrementIntervalId: number | undefined
 
 export const optionsController = () => {
   createOptionsView(OPTIONS_DATA, purchase.options)
@@ -110,7 +110,7 @@ export const optionsController = () => {
   })
 }
 
-const restartOptionsController = (clearAutoIncrementIntervalId: number | undefined) => {
+export const restartOptionsController = (clearAutoIncrementIntervalId: number | undefined) => {
   clearInterval(clearAutoIncrementIntervalId)
   optionsController()
 }

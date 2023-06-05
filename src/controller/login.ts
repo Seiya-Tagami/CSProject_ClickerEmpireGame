@@ -3,6 +3,7 @@ import { TUser, user } from '../model/user'
 import { game_container, login_container } from '../view/common/containers'
 import { createLoginView } from '../view/login'
 import { removeCurrentView } from '../view/utils/removeView'
+import { resetController } from './reset'
 
 export const loginController = () => {
   createLoginView()
@@ -48,5 +49,6 @@ const startGame = (loginUsername: string) => {
   statusController()
   optionsController()
   hamburgerController()
+  resetController()
   logoutController()
 }

@@ -15,3 +15,7 @@ export const hamburgerController = () => {
     createCountingYenView(purchase.yen)
   })
 }
+
+export const restartHamburgerController = () => {
+  hamburgerController()
+}

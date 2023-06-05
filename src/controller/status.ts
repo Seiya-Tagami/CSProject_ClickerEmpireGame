@@ -7,6 +7,7 @@ import {
   createStatusView,
 } from '../view/status'
 
+export let clearAutoIncrementDaysId: number | undefined
 export const statusController = () => {
   const InitInjectingData: TStatusData = {
     username: user.username,
@@ -20,7 +21,7 @@ export const statusController = () => {
   /**
    * calculating and injecting days and years old
    */
-  setInterval(() => {
+  clearAutoIncrementDaysId = setInterval(() => {
     purchase.incrementDays()
     createCountingUpDays(purchase.days)
     if (purchase.days % 365 == 0) {
@@ -28,4 +29,9 @@ export const statusController = () => {
       createCountingUpYearsOld(purchase.old)
     }
   }, 1000)
+}
+
+export const restartStatusController = (clearAutoIncrementDaysId: number | undefined) => {
+  clearInterval(clearAutoIncrementDaysId)
+  statusController()
 }
