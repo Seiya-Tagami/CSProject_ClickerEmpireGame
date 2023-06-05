@@ -17,6 +17,119 @@ export type TGameData = {
   options: TOption[];
 };
 
+// const initOptionsData = [
+//   {
+//     id: 1,
+//     label: 'Flip machine',
+//     desc: '¥25 / click',
+//     img: 'images/grill.png',
+//     maxPurchases: 500,
+//     price: 15000,
+//     processingValue: 25,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 2,
+//     label: 'ETF Stock',
+//     desc: '0.1% / sec',
+//     img: 'images/chart.png',
+//     maxPurchases: Infinity,
+//     price: 300000,
+//     processingValue: 0.1,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 3,
+//     label: 'ETF Bonds',
+//     desc: '0.07% / sec',
+//     img: 'images/chart.png',
+//     maxPurchases: Infinity,
+//     price: 300000,
+//     processingValue: 0.07,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 4,
+//     label: 'Lemonade Stand',
+//     desc: '¥30 / sec',
+//     img: 'images/lemonade.png',
+//     maxPurchases: 1000,
+//     price: 30000,
+//     processingValue: 30,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 5,
+//     label: 'Ice Cream Truck',
+//     desc: '¥120 / sec',
+//     img: 'images/ice-cream.png',
+//     maxPurchases: 500,
+//     price: 100000,
+//     processingValue: 120,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 6,
+//     label: 'House',
+//     desc: '¥32,000 / sec',
+//     img: 'images/house-1.png',
+//     maxPurchases: 100,
+//     price: 20000000,
+//     processingValue: 32000,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 7,
+//     label: 'TownHouse',
+//     desc: '¥64,000 / sec',
+//     img: 'images/house-2.png',
+//     maxPurchases: 100,
+//     price: 40000000,
+//     processingValue: 64000,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 8,
+//     label: 'Castle',
+//     desc: '¥500,000 / sec',
+//     img: 'images/castle.png',
+//     maxPurchases: 20,
+//     price: 250000000,
+//     processingValue: 500000,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 9,
+//     label: 'Industrial Space',
+//     desc: '¥2,200,000 / sec',
+//     img: 'images/industrial-space.png',
+//     maxPurchases: 10,
+//     price: 1000000000,
+//     processingValue: 2200000,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 10,
+//     label: 'Hotel Skyscraper',
+//     desc: '¥25,000,000 / sec',
+//     img: 'images/skyscrapers.png',
+//     maxPurchases: 5,
+//     price: 10000000000,
+//     processingValue: 25000000,
+//     purchasedItemNums: 0,
+//   },
+//   {
+//     id: 11,
+//     label: 'Bullet-Speed Sky Railway',
+//     desc: '¥30,000,000,000 / sec',
+//     img: 'images/high-speed-train.png',
+//     maxPurchases: 1,
+//     price: 10000000000000,
+//     processingValue: 30000000000,
+//     purchasedItemNums: 0,
+//   },
+// ]
+
 const initOptionsData = [
   {
     id: 1,
@@ -85,7 +198,6 @@ class Purchase {
   autoAddingValuePerSec: number;
   options: TOption[];
 
-  //TODO: localStorageのあるなしで出しわけるようにする
   constructor() {
     this.gameDataId = null;
     this.days = 0;
@@ -118,10 +230,11 @@ class Purchase {
     this.yen -= data.price * data.nums;
     const foundOption = this.options.find((option) => option.id == data.id);
 
-    // for flip machine
     if (foundOption !== undefined) {
       if (data.id == 1) {
         this.oneClick += foundOption.processingValue * data.nums;
+      } else if (data.id == 2 || data.id == 3) {
+        this.autoAddingValuePerSec += foundOption.processingValue * (300000 * data.nums);
       } else {
         this.autoAddingValuePerSec += foundOption.processingValue * data.nums;
       }

@@ -29,10 +29,10 @@ export type TPurchaseModelData = {
   price: number;
 };
 
-let startAutoIncrementYen = false;
 export let clearAutoIncrementIntervalId: number | undefined;
 
 export const optionsController = () => {
+  const startAutoIncrementYen = 0 < purchase.autoAddingValuePerSec ? true : false;
   createOptionsView(OPTIONS_DATA, purchase.options);
 
   /**
@@ -97,9 +97,9 @@ export const optionsController = () => {
 
         purchase.purchaseItem(injectingData);
 
-        if (0 < purchase.autoAddingValuePerSec) {
-          startAutoIncrementYen = true;
-        }
+        // if (0 < purchase.autoAddingValuePerSec) {
+        //   startAutoIncrementYen = true;
+        // }
 
         createCountingYenView(purchase.yen);
         createCountingUpOneClickView(purchase.oneClick);
