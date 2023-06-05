@@ -1,10 +1,10 @@
-import { DetailViewData } from "../controller/options"
+import { TDetailViewData } from "../controller/options"
 import { options_container } from "./common/containers"
 
 //TODO: 個数のバリデーションが弱い
 
 // rendering detail
-export const createDetailView = (data: DetailViewData, purchasedItemNums: number) => {
+export const createDetailView = (data: TDetailViewData, purchasedItemNums: number) => {
   options_container.innerHTML = ""
 
   const detail_view = document.createElement("div")

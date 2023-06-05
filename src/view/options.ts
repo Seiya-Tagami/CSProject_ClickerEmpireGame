@@ -1,9 +1,9 @@
-import { OptionsViewData } from "../controller/options"
-import { option } from "../model/purchase"
+import { TOptionsViewData } from "../controller/options"
+import { TOption } from "../model/purchase"
 import { options_container } from "./common/containers"
 
 // rendering options
-export const createOptionsView = (data: OptionsViewData, options: option[]) => {
+export const createOptionsView = (data: TOptionsViewData, options: TOption[]) => {
   options_container.innerHTML = ""
 
   const options_view: HTMLDivElement[] = data.map((d, index) => {

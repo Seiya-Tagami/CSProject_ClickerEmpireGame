@@ -1,6 +1,6 @@
-import { PurchaseModelData } from "../controller/options";
+import { TPurchaseModelData } from "../controller/options";
 
-export type option = {
+export type TOption = {
   id: number
   processingValue: number
   purchasedItemNums: number
@@ -13,7 +13,7 @@ class Purchase {
   burgers: number;
   oneClick: number;
   autoAddingValuePerSec: number;
-  options: option[];
+  options: TOption[];
 
 
   //TODO: localStorageのあるなしで出しわけるようにする
@@ -101,7 +101,7 @@ class Purchase {
   }
 
 
-  purchaseItem(data: PurchaseModelData) {
+  purchaseItem(data: TPurchaseModelData) {
     // calculating yen
     this.yen -= data.price * data.nums
 

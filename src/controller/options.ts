@@ -5,7 +5,7 @@ import { createCountingUpOneClickView } from "../view/hamburger";
 import { createOptionsView } from "../view/options";
 import { createCountingYenView } from "../view/status";
 
-export type OptionsViewData = {
+export type TOptionsViewData = {
   id: number;
   label: string;
   desc: string;
@@ -14,7 +14,7 @@ export type OptionsViewData = {
   img: string;
 }[]
 
-export type DetailViewData = {
+export type TDetailViewData = {
   id: number
   label: string
   desc: string
@@ -23,7 +23,7 @@ export type DetailViewData = {
   img: string
 }
 
-export type PurchaseModelData = {
+export type TPurchaseModelData = {
   id: number,
   nums: number,
   price: number
@@ -47,7 +47,7 @@ export const optionsController = () => {
 
   OPTIONS_DATA.forEach((data, index) => {
     document.querySelector(`.js-button-${data.id}`)?.addEventListener("click", () => {
-      const injectingData = OPTIONS_DATA.find((data) => data.id == index + 1) as unknown as DetailViewData
+      const injectingData = OPTIONS_DATA.find((data) => data.id == index + 1) as unknown as TDetailViewData
       createDetailView(injectingData, purchase.options[index].purchasedItemNums);
 
       /**

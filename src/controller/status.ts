@@ -1,10 +1,10 @@
 import { purchase } from "../model/purchase";
 import { user } from "../model/user";
-import { StatusData, createCountingUpDays, createCountingUpYearsOld, createStatusView } from "../view/status";
+import { TStatusData, createCountingUpDays, createCountingUpYearsOld, createStatusView } from "../view/status";
 
 
 export const statusController = () => {
-  const InitInjectingData: StatusData = {
+  const InitInjectingData: TStatusData = {
     username: user.username,
     old: purchase.old,
     days: purchase.days,

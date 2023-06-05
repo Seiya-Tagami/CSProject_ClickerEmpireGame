@@ -1,9 +1,8 @@
-import { hamburgerController, optionsController, statusController } from ".";
+import { hamburgerController, optionsController, statusController, logoutController } from ".";
 import { TUser, user } from "../model/user";
 import { game_container, login_container } from "../view/common/containers";
 import { createLoginView } from "../view/login"
 import { removeCurrentView } from "../view/utils/removeView";
-import { logoutController } from "./logout";
 
 export const loginController = () => {
   createLoginView()

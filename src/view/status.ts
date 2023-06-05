@@ -1,6 +1,6 @@
 const status_container = document.getElementById("js-status-container") as HTMLDivElement
 
-export type StatusData = {
+export type TStatusData = {
   username: string
   old: number
   days: number
@@ -8,7 +8,7 @@ export type StatusData = {
 }
 
 // rendering status
-export const createStatusView = (data: StatusData) => {
+export const createStatusView = (data: TStatusData) => {
   status_container.innerHTML = ''
 
   const status_view = document.createElement("div");
