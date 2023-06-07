@@ -4,8 +4,8 @@ import { purchase } from './model/purchase';
 import { user } from './model/user';
 
 const initApp = () => {
-  user.initUsersLocalStorage();
-  purchase.initGameDataLocalStorage();
+  user.initLocalStorage();
+  purchase.initLocalStorage();
   loginController();
 };
 

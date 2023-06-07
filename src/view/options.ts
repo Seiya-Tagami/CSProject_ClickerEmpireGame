@@ -1,12 +1,12 @@
 import { TOptionsViewData } from '../controller/options';
-import { TOption } from '../model/purchase';
+// import { TOption } from '../model/purchase';
 import { options_container } from './common/containers';
 
 // rendering options
-export const createOptionsView = (data: TOptionsViewData, options: TOption[]) => {
+export const createOptionsView = (data: TOptionsViewData) => {
   options_container.innerHTML = '';
 
-  const options_view: HTMLDivElement[] = data.map((d, index) => {
+  const options_view: HTMLDivElement[] = data.map((d) => {
     const option_view_div = document.createElement('div');
     option_view_div.classList.add(
       `js-button-${d.id}`,
@@ -34,7 +34,7 @@ export const createOptionsView = (data: TOptionsViewData, options: TOption[]) =>
       </div>
     </div>
     <div class="flex flex-col items-end p-2 text-white font-bold">
-      <span class="text-3xl">${options[index].purchasedItemNums}</span>
+      <span class="text-3xl">${d.purchasedItemNums}</span>
       <span class="text-green-500">${d.desc}</span>
     </div>
   `;

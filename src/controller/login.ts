@@ -31,7 +31,7 @@ export const loginController = () => {
       const users = storedUsers ? (JSON.parse(storedUsers) as TUser[]) : [];
       const storedUser = users.find((user) => user.username === loginInput.value);
       if (storedUser) {
-        purchase.getGameDataFromLocalStorage(storedUser.id);
+        purchase.fetchGameDataFromLocalStorage(storedUser.id);
         startGame(storedUser.username);
       } else {
         alert('no data found');

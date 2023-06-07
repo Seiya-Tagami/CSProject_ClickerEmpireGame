@@ -1,5 +1,5 @@
 import {
-  clearAutoIncrementDaysId,
+  clearAutoincreaseDaysId,
   clearAutoIncrementIntervalId,
   restartHamburgerController,
   restartOptionsController,
@@ -10,10 +10,10 @@ import { purchase } from '../model/purchase';
 export const resetController = () => {
   document.getElementById('js-reset-button')?.addEventListener('click', () => {
     if (window.confirm('Reset All Data?')) {
-      purchase.resetData();
+      purchase.resetGameData();
     }
 
-    restartStatusController(clearAutoIncrementDaysId);
+    restartStatusController(clearAutoincreaseDaysId);
     restartOptionsController(clearAutoIncrementIntervalId);
     restartHamburgerController();
   });

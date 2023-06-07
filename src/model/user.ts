@@ -14,7 +14,7 @@ class User {
     this.username = username;
   }
 
-  initUsersLocalStorage() {
+  initLocalStorage() {
     if (!localStorage.getItem('users')) {
       localStorage.setItem('users', JSON.stringify([]));
     }
