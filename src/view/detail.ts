@@ -3,7 +3,6 @@ import { options_container } from './common/containers';
 
 //TODO: 個数のバリデーションが弱い
 
-// rendering detail
 export const createDetailView = (data: TDetailViewData) => {
   options_container.innerHTML = '';
 
@@ -54,7 +53,7 @@ export const createDetailView = (data: TDetailViewData) => {
   options_container.append(detail_view);
 };
 
-export const createCountingTotalView = (yen: number) => {
+export const reRenderCountingTotalView = (yen: number) => {
   const total_view = <HTMLSpanElement>document.getElementById('js-total-view');
   total_view.innerHTML = `total: ￥${yen}`;
 };

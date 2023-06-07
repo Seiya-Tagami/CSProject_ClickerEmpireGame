@@ -21,12 +21,12 @@ export const createHamburgerView = (data: HamburgerViewData) => {
   hamburger_container.append(hamburger_view);
 };
 
-export const createCountingUpBurgersView = (burgers: number) => {
+export const reRenderCountingUpBurgersView = (burgers: number) => {
   const nums_of_burgers_container = <HTMLSpanElement>document.getElementById('js-nums-of-burgers');
   nums_of_burgers_container.innerText = `${burgers} Burgers`;
 };
 
-export const createCountingUpOneClickView = (newOneClick: number) => {
+export const reRenderCountingUpOneClickView = (newOneClick: number) => {
   const one_click_container = <HTMLSpanElement>document.getElementById('js-one-click');
   one_click_container.innerText = `one click ￥${newOneClick}`;
 };

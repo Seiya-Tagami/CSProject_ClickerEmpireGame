@@ -1,8 +1,8 @@
 import { TOption, purchase } from '../model/purchase';
-import { createCountingTotalView, createDetailView } from '../view/detail';
-import { createCountingUpOneClickView } from '../view/hamburger';
+import { reRenderCountingTotalView, createDetailView } from '../view/detail';
+import { reRenderCountingUpOneClickView } from '../view/hamburger';
 import { createOptionsView } from '../view/options';
-import { createCountingYenView } from '../view/status';
+import { reRenderCountingYenView } from '../view/status';
 
 export type TOptionsViewData = {
   id: number;
@@ -36,7 +36,7 @@ export const optionsController = () => {
   if (startAutoIncrementYen) {
     clearAutoIncrementIntervalId = setInterval(() => {
       purchase.increaseYenByAutoAddingValuePerSec();
-      createCountingYenView(purchase.yen);
+      reRenderCountingYenView(purchase.yen);
     }, 1000);
   }
 
@@ -57,7 +57,7 @@ export const optionsController = () => {
           inputValue = parseInt(target.value, 10);
           price = injectingData.price;
           total = inputValue * price;
-          createCountingTotalView(total);
+          reRenderCountingTotalView(total);
         }
       });
 
@@ -91,8 +91,8 @@ export const optionsController = () => {
 
         purchase.purchaseItem(injectingData);
 
-        createCountingYenView(purchase.yen);
-        createCountingUpOneClickView(purchase.oneClick);
+        reRenderCountingYenView(purchase.yen);
+        reRenderCountingUpOneClickView(purchase.oneClick);
 
         restartOptionsController(clearAutoIncrementIntervalId);
       });

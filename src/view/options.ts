@@ -1,8 +1,6 @@
 import { TOptionsViewData } from '../controller/options';
-// import { TOption } from '../model/purchase';
 import { options_container } from './common/containers';
 
-// rendering options
 export const createOptionsView = (data: TOptionsViewData) => {
   options_container.innerHTML = '';
 

@@ -2,8 +2,8 @@ import { purchase } from '../model/purchase';
 import { user } from '../model/user';
 import {
   TStatusData,
-  createCountingUpDays,
-  createCountingUpYearsOld,
+  reRenderCountingUpDays,
+  reRenderCountingUpYearsOld,
   createStatusView,
 } from '../view/status';
 
@@ -23,10 +23,10 @@ export const statusController = () => {
    */
   clearAutoincreaseDaysId = setInterval(() => {
     purchase.increaseDays();
-    createCountingUpDays(purchase.days);
+    reRenderCountingUpDays(purchase.days);
     if (purchase.days % 365 == 0) {
       purchase.increaseOld();
-      createCountingUpYearsOld(purchase.old);
+      reRenderCountingUpYearsOld(purchase.old);
     }
   }, 1000);
 };

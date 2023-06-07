@@ -7,7 +7,6 @@ export type TStatusData = {
   yen: number;
 };
 
-// rendering status
 export const createStatusView = (data: TStatusData) => {
   status_container.innerHTML = '';
 
@@ -32,20 +31,17 @@ export const createStatusView = (data: TStatusData) => {
   status_container.append(status_view);
 };
 
-// re-rendering years old
-export const createCountingUpYearsOld = (old: number) => {
+export const reRenderCountingUpYearsOld = (old: number) => {
   const years_old_view_container = <HTMLSpanElement>document.getElementById('js-years-old-view');
   years_old_view_container.innerText = `${old} years old`;
 };
 
-// re-rendering days
-export const createCountingUpDays = (days: number) => {
+export const reRenderCountingUpDays = (days: number) => {
   const days_view_container = <HTMLSpanElement>document.getElementById('js-days-view');
   days_view_container.innerText = `${days} days`;
 };
 
-// re-rendering yen
-export const createCountingYenView = (yen: number) => {
+export const reRenderCountingYenView = (yen: number) => {
   const yen_view_container = <HTMLSpanElement>document.getElementById('js-yen-view');
   yen_view_container.innerText = `¥${yen}`;
 };

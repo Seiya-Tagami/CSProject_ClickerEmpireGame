@@ -1,6 +1,6 @@
 import { purchase } from '../model/purchase';
-import { createCountingUpBurgersView, createHamburgerView } from '../view/hamburger';
-import { createCountingYenView } from '../view/status';
+import { reRenderCountingUpBurgersView, createHamburgerView } from '../view/hamburger';
+import { reRenderCountingYenView } from '../view/status';
 
 export const hamburgerController = () => {
   const injectingData = {
@@ -12,8 +12,8 @@ export const hamburgerController = () => {
 
   document.getElementById('js-hamburger-click')?.addEventListener('click', () => {
     purchase.clickBurger();
-    createCountingUpBurgersView(purchase.burgers);
-    createCountingYenView(purchase.yen);
+    reRenderCountingUpBurgersView(purchase.burgers);
+    reRenderCountingYenView(purchase.yen);
   });
 };
 
