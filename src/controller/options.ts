@@ -72,12 +72,12 @@ export const optionsController = () => {
        * when clicking purchase
        */
       document.getElementById(`js-purchase-${data.id}`)?.addEventListener('click', () => {
-        if (total == 0) {
+        if (inputValue == 0) {
           alert('invalid number');
           restartOptionsController(clearAutoIncrementIntervalId);
           return;
         } else if (purchase.yen < total) {
-          alert("You don't have enough money!");
+          alert("You don't have enough money...");
           restartOptionsController(clearAutoIncrementIntervalId);
           return;
         }

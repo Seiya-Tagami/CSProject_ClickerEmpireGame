@@ -1,8 +1,6 @@
 import { TDetailViewData } from '../controller/options';
 import { options_container } from './common/containers';
 
-//TODO: 個数のバリデーションが弱い
-
 export const createDetailView = (data: TDetailViewData) => {
   options_container.innerHTML = '';
 
@@ -28,7 +26,7 @@ export const createDetailView = (data: TDetailViewData) => {
     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     value="0"
     min="0"
-    max="${data.maxPurchases ? data.maxPurchases - data.purchasedItemNums : 1000000000}"
+    max="${data.maxPurchases ? data.maxPurchases - data.purchasedItemNums : 9999999999}"
   />
   <span id="js-total-view" class="text-right text-white">total: ￥0</span>
 </div>

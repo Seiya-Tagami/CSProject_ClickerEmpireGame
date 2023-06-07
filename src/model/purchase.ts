@@ -38,6 +38,7 @@ const initOptionsData = [
     label: 'ETF Stock',
     desc: '0.1% / sec',
     img: 'images/chart.png',
+    // 無限大を使いたくないので、0で表すことにする。
     maxPurchases: 0,
     price: 300000,
     processingValue: 0.1,
@@ -48,6 +49,7 @@ const initOptionsData = [
     label: 'ETF Bonds',
     desc: '0.07% / sec',
     img: 'images/chart.png',
+    // 無限大を使いたくないので、0で表すことにする。
     maxPurchases: 0,
     price: 300000,
     processingValue: 0.07,
