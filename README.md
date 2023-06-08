@@ -1,6 +1,8 @@
 # Clicker Empire Game
 
-## 言語
+![Clicker Empire Game](https://github.com/Seiya-Tagami/CSProject_ClickerEmpireGame/assets/107479598/b1ca454c-b28d-4246-9f69-4f67814f5eea)
+
+## 言語・環境
 
 - TypeScript
 - TailwindCSS
@@ -11,7 +13,7 @@
 - MVC アーキテクチャを選定し、UI、イベントハンドラ、データロジックの分離を行う。
 - TypeScript によって関数をモジュール化することで、クリーンなコードを目指す。
 
-## MVCの定義
+## MVC の定義
 
 model --
 
