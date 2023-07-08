@@ -158,24 +158,24 @@ class Purchase {
     this.options = initOptionsData;
   }
 
-  clickBurger() {
+  public clickBurger() {
     this.burgers++;
     this.yen += this.oneClick;
   }
 
-  increaseOld() {
+  public increaseOld() {
     this.old++;
   }
 
-  increaseDays() {
+  public increaseDays() {
     this.days++;
   }
 
-  increaseYenByAutoAddingValuePerSec() {
+  public increaseYenByAutoAddingValuePerSec() {
     this.yen += this.autoAddingValuePerSec;
   }
 
-  purchaseItem(data: TPurchaseModelData) {
+  public purchaseItem(data: TPurchaseModelData) {
     this.yen -= data.price * data.nums;
     const foundOption = this.options.find((option) => option.id == data.id);
 
@@ -196,7 +196,7 @@ class Purchase {
     }
   }
 
-  fetchGameDataFromLocalStorage(userId: number) {
+  public fetchGameDataFromLocalStorage(userId: number) {
     const storedGameData = localStorage.getItem('gameData');
     const gameData = storedGameData ? (JSON.parse(storedGameData) as TGameData[]) : [];
     const userGameData = gameData.find((data) => data.id == userId);
@@ -212,7 +212,7 @@ class Purchase {
     }
   }
 
-  resetGameData() {
+  public resetGameData() {
     this.days = 0;
     this.old = 20;
     this.yen = 1000000;
@@ -222,13 +222,13 @@ class Purchase {
     this.options = initOptionsData;
   }
 
-  initLocalStorage() {
+  public initLocalStorage() {
     if (!localStorage.getItem('gameData')) {
       localStorage.setItem('gameData', JSON.stringify([]));
     }
   }
 
-  saveGameDataToLocalStorage() {
+  public saveGameDataToLocalStorage() {
     const storedGameData = localStorage.getItem('gameData');
     const gameData = storedGameData ? (JSON.parse(storedGameData) as TGameData[]) : [];
     const storedGameDatum = gameData.find((data) => data.id == this.gameDataId);

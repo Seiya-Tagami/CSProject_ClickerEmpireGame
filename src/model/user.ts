@@ -10,17 +10,17 @@ class User {
     this.username = username;
   }
 
-  setUsername(username: string) {
+  public setUsername(username: string) {
     this.username = username;
   }
 
-  initLocalStorage() {
+  public initLocalStorage() {
     if (!localStorage.getItem('users')) {
       localStorage.setItem('users', JSON.stringify([]));
     }
   }
 
-  saveUserNameToLocalStorage() {
+  public saveUserNameToLocalStorage() {
     const storedUsers = localStorage.getItem('users');
     const users = storedUsers ? (JSON.parse(storedUsers) as TUser[]) : [];
     if (users.find((user) => user.username === this.username)) {
